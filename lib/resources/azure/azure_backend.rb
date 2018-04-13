@@ -55,7 +55,7 @@ module Inspec::Resources
     end
 
     # Return information about the resource group
-    def resource_group
+    def create_resource_group_methods
       catch_azure_errors do
         resource_group = client.resource_groups.get(opts[:group_name])
 
@@ -65,7 +65,7 @@ module Inspec::Resources
       end
     end
 
-    def resources
+    def create_resource_methods
       resources = nil
       catch_azure_errors do
         resources = client.resources.list_by_resource_group(opts[:group_name])
@@ -97,22 +97,26 @@ module Inspec::Resources
         # As there are many resources, parse each one so that it can be
         # interrogated by the FilterTable
         # @probes = parse_resources(resources, azure)
-        @probes = resources.each.map do |item|
+        @probes = resources.map do |item|
           # update the total
           @total += 1
 
           # determine the counts for each type
           namespace, type_name = item.type.split(/\./)
-          counts.key?(namespace) ? false : counts[namespace] = {}
-          counts[namespace].key?(type_name) ? counts[namespace][type_name] += 1 : counts[namespace][type_name] = 1
+          counts[namespace] = {} unless counts.key?(namespace)
+
+          if counts[namespace].key?(type_name)
+            counts[namespace][type_name] += 1
+          else
+            counts[namespace][type_name] = 1
+          end
 
           # get the detail about the resource
           apiversion = azure.get_api_version(item.type, opts)
           resource = client.resources.get_by_id(item.id, apiversion)
 
-          # parse the resource
           parse_resource(resource)
-        end.compact
+        end
 
         # Iterate around the counts and create the necessary classes
         counts.each do |namespace, ns_counts|
@@ -121,6 +125,16 @@ module Inspec::Resources
           end
         end
       end
+    end
+
+    def parse_resource(resource)
+      {
+        'location' => resource.location,
+        'name' => resource.name,
+        'type' => resource.type,
+        'exist?' => true,
+        'properties' => AzureResourceProbe.new(resource.properties),
+      }
     end
 
     # Does the resource have any tags?
@@ -253,7 +267,7 @@ class AzureResourceDynamicMethods
       # Some things are just string or integer arrays
       # Check this by seeing if the first element is a string / integer / boolean or
       # a hashtable
-      # This may not be the best methid, but short of testing all elements in the array, this is
+      # This may not be the best method, but short of testing all elements in the array, this is
       # the quickest test
       case value[0].class.to_s
       when 'String', 'Integer', 'TrueClass', 'FalseClass', 'Fixnum'

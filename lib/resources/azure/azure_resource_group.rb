@@ -41,8 +41,7 @@ module Inspec::Resources
         public_ip: 'Microsoft.Network/publicIPAddresses',
       }
 
-      # Get information about the resource group itself
-      resource_group
+      create_resource_group_methods
 
       # Get information about the resources in the resource group
       resources
@@ -79,13 +78,10 @@ module Inspec::Resources
     #
     # @param [Hash] resource A hashtable representing the resource group
     def parse_resource(resource)
-      # return a hash of information
-      parsed = {
+      {
         'name' => resource.name,
         'type' => resource.type,
       }
-
-      parsed
     end
 
     # This method catches the xxx_count calls that are made on the resource.
