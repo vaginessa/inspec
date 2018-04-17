@@ -65,7 +65,7 @@ module Inspec::Resources
       end
     end
 
-    def create_resource_methods
+    def resources
       resources = nil
       catch_azure_errors do
         resources = client.resources.list_by_resource_group(opts[:group_name])

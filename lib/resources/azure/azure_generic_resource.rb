@@ -19,7 +19,7 @@ module Inspec::Resources
       super(opts)
 
       create_resource_group_methods
-      create_resource_methods
+      resources
       create_tag_methods
     end
 
