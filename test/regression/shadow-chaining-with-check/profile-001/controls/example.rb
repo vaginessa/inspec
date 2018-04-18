@@ -3,7 +3,7 @@
 
 title 'sample section'
 
-plat = platform
+puts platform.family
 
 describe "My platform: #{plat}" do
   it { should include 'plat' }
