@@ -9,6 +9,7 @@ end
 
 gem 'ffi', '>= 1.9.14'
 gem 'aws-sdk', '~> 2'
+gem 'azure_sdk'
 
 group :test do
   gem 'bundler', '~> 1.5'
