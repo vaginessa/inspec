@@ -351,3 +351,33 @@ resource "azurerm_key_vault" "benchmark_vault" {
 
   enabled_for_disk_encryption = true
 }
+
+resource "azurerm_log_analytics_workspace" "workspace" {
+  name                = "workspace-1234"
+  location            = "${azurerm_resource_group.rg.location}"
+  resource_group_name = "${azurerm_resource_group.rg.name}"
+  sku                 = "Standard"
+  retention_in_days   = 30
+}
+
+resource "azurerm_virtual_machine_extension" "log_extension" {
+  name                 = "LogAnalytics"
+  location             = "${var.location}"
+  resource_group_name  = "${azurerm_resource_group.rg.name}"
+  virtual_machine_name = "${azurerm_virtual_machine.vm_windows_internal.name}"
+  publisher            = "Microsoft.EnterpriseCloud.Monitoring"
+  type                 = "MicrosoftMonitoringAgent"
+  type_handler_version = "1.0"
+
+  settings = <<SETTINGS
+    {
+      "workspaceId": "${azurerm_log_analytics_workspace.workspace.workspace_id}"
+    }
+SETTINGS
+
+  protected_settings = <<PROTECTED_SETTINGS
+    {
+      "workspaceKey": "${azurerm_log_analytics_workspace.workspace.primary_shared_key}"
+    }
+PROTECTED_SETTINGS
+}
