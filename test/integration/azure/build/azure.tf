@@ -5,6 +5,7 @@ variable "admin_password" {}
 
 variable "subscription_id" {}
 variable "client_id" {}
+variable "object_id" {}
 variable "client_secret" {}
 variable "tenant_id" {}
 
@@ -183,7 +184,7 @@ resource "azurerm_virtual_machine" "vm_linux_internal" {
     disable_password_authentication = false
   }
 
-  # Add boot diagnostics to the machine. These will be added to the 
+  # Add boot diagnostics to the machine. These will be added to the
   # created storage acccount
   boot_diagnostics {
     enabled     = true
@@ -286,4 +287,67 @@ resource "azurerm_virtual_machine" "vm_windows_internal" {
   os_profile_windows_config {
     provision_vm_agent = true
   }
+}
+
+resource "azurerm_key_vault" "benchmark_vault" {
+  name                = "inspec-benchmark-vault"
+  location            = "${var.location}"
+  resource_group_name = "${azurerm_resource_group.rg.name}"
+
+  sku {
+    name = "standard"
+  }
+
+  tenant_id = "${var.tenant_id}"
+
+  access_policy {
+    tenant_id = "${var.tenant_id}"
+    object_id = "${var.object_id}"
+
+    key_permissions = [
+      "create",
+      "decrypt",
+      "delete",
+      "encrypt",
+      "get",
+      "import",
+      "list",
+      "purge",
+      "recover",
+      "restore",
+      "sign",
+      "unwrapKey",
+      "update",
+      "verify",
+      "wrapKey",
+    ]
+
+    certificate_permissions = [
+      "get",
+      "list",
+      "delete",
+      "create",
+      "import",
+      "update",
+      "managecontacts",
+      "getissuers",
+      "listissuers",
+      "setissuers",
+      "deleteissuers",
+      "manageissuers",
+      "recover"
+    ]
+
+    secret_permissions = [
+      "delete",
+      "get",
+      "list",
+      "purge",
+      "recover",
+      "restore",
+      "set",
+    ]
+  }
+
+  enabled_for_disk_encryption = true
 }

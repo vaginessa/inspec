@@ -171,6 +171,7 @@ namespace :test do
 
     desc "Generate terraform.tfvars file"
     task :vars do |t, args|
+      abort("You must set the AZURE_PRINCIPAL_OBJECT_ID.") unless ENV['AZURE_PRINCIPAL_OBJECT_ID']
 
       next if File.exist?(tf_vars_file)
 
@@ -190,6 +191,7 @@ namespace :test do
       content = <<~VARS
         subscription_id = "#{creds[:subscription_id]}"
         client_id = "#{creds[:client_id]}"
+        object_id = "#{ENV['AZURE_PRINCIPAL_OBJECT_ID']}"
         client_secret = "#{creds[:client_secret]}"
         tenant_id = "#{creds[:tenant_id]}"
         storage_account_name = "#{sa_name}"
