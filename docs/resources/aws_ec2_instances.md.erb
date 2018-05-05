@@ -7,41 +7,194 @@ platform: aws
 
 Use the `aws_ec2_instances` InSpec audit resource to test properties of some or all AWS EC2 instances. To audit a single EC2 instance, use `aws_ec2_instance` (singular).
 
-EC2 instances are the basic unit of computing within AWS.  An instance is a virtual machine that contains a running OS, and may be created or destroyed by code.
+EC2 instances are the basic unit of computing within AWS. An instance is a virtual machine that contains a running OS, and may be created or destroyed by code.
 
 Each EC2 instance is uniquely identified by its ID.
 
 <br>
 
-## Syntax
+## Resource Parameters
 
-An `aws_ec2_instances` resource block collects a group of EC2 Instances and then tests that group.
+An `aws_ec2_instances` resource block collects a group of EC2 Instances and then tests that group. No resource parameters are accepted.
 
     # Ensure you have exactly 3 instances
     describe aws_ec2_instances do
       its('instance_ids.count') { should cmp 3 }
     end
 
-    # Use the InSpec resource to enumerate IDs, then test in-depth using `aws_ec2_instance`.
+<br>
+
+## Examples
+
+### Enumerate all instances and examine using `aws_ec2_instance`
+
     aws_ec2_instances.instance_ids.each do |instance_id|
       describe aws_ec2_instance(instance_id) do
         its('key_name') { should cmp 'admin-ssh-key' }
       end 
     end
 
-<br>
+### Audit instance types running in an Availability Zone
 
-## Examples
-
-As this is the initial release of `aws_ec2_instances`, its limited functionality precludes examples.
+    #  We should only have smallish running instances in us-east-2a
+    # (this example uses an unsupported RSpec-specific feature, `a_string_matching`)
+    describe aws_ec2_instances.where(status: 'running', az: 'us-east-2a') do 
+      its('instance_types') { should_not include(a_string_matching(/large/)) }
+    end
 
 <br>
 
 ## Filter Criteria
 
-This resource currently does not support any filter criteria; it will always fetch all instances in the region.
+Filter criteria are arguments you may pass to the `where` filtering method.
+
+    # For simple equality, use method call syntax:
+    describe aws_ec2_instances.where(instance_type: 't2.micro') do
+      # Run tests on the t2.micro instances
+    end
+
+    # For arbitrary logic, use block syntax. Each filter criterion is available.
+    describe aws_ec2_instances.where { instance_type.end_with? 'large' }
+      # Run tests on the r3.16xlarge, m3.large, etc instances
+    end
+
+
+### az
+
+Matches against the Availability Zone of the instances. Availability zones names are strings, with a letter appended to the region name.
+
+    describe aws_ec2_instances.where(az: 'us-east-1a') do
+      it { should exist }
+    end
+
+### ami_id
+
+Matches against the ID of the disk image that was used to provision the instances.
+
+    # This was an insecure AMI, make sure we removed any instances based on it 
+    describe aws_ec2_instances.where(ami_id: 'ami-12345678') do
+      it { should_not exist }
+    end
+
+### instance_type
+
+Matches against the instance type (which reflects the CPU, memory, and other virtualized hardware) of the instances.
+
+    # Find all the micros
+    describe aws_ec2_instances.where( instance_type: 't2.micro' ) do
+      it { should exist }
+    end
+
+    # Ban enormous machines
+    describe aws_ec2_instances.where { instance_type.end_with? 'xlarge' } do
+      it { should_not exist }
+    end
+
+### private_ip
+
+Matches against the private IP address of the instances.
+
+    describe aws_ec2_instances.where{ private_ip.start_with? '10.2' } do
+      it { should exist }
+    end
+
+### status
+
+Matches against the VM status of the instances. This is the power state of the VM, not the Cloudwatch-managed "health status."Common statuses are 'running' and 'stopped'. The status 'terminated' may be present for up to an hour after an instance has been destroyed but not yet de-listed. Other statuses exist but are even more transitory.
+
+    describe aws_ec2_instances.where(status: 'stopped') do
+      # Don't allow stopped instances cluttering up the place
+      it { should_not exist }
+    end
+
+### subnet_id
+
+Matches against the ID of the subnet where the instances are located.
+
+    describe aws_ec2_instances.where(subnet_id: 'subnet-12345678') do
+      it { should exist }
+    end
+
+### vpc_id
+
+Matches against the ID of the VPC where the instances are located.
+
+    describe aws_ec2_instances.where(vpc_id: 'vpc-12345678') do
+      it { should exist }
+    end
 
 ## Properties
+
+Properties on a plural resource are lists you can access using the `its` facility. Every property will return an array. Some properties perform de-duplication, so the number of values may not match the number of instances selected by the filter.
+
+All properties may be used outside of a describe block:
+
+    aws_ec2_instances.private_ips do |ip|
+      # Do something with a list of IPs, perhaps check route tables
+    end
+
+### azs
+
+Returns a list of strings reflecting the _deduplicated_ Availability Zone names of the filtered instances. If you have 5 instances in us-east-1a and 4 instances in us-east-1c, then you will have 2 entries in `azs`.
+
+    # Ensure that we are spread over at least three AZs
+    describe aws_ec2_instances do
+      its('azs.count') { should be >= 3 } 
+    end
+
+### ami_ids
+
+Returns a list of strings reflecting the _deduplicated_ IDs of the disk images that were used to provision the instances. If you have 5 instances using ami-12345678 and 4 instances using ami-87654321, then you will have 2 entries in `ami_ids`.
+
+    # Ensure that no deprecated AMIs are in use
+    describe aws_ec2_instances do
+      its('ami_ids') { should_not include 'ami-12345678' } 
+      its('ami_ids') { should_not include 'ami-5678aaaa' } 
+    end
+
+### instance_types
+
+Returns a list of strings reflecting the _deduplicated_ instance types of the instances. If you have 5 r3.4xlarge instances and 4 t2.micro instances, then you will have 2 entries in `instance_types`.
+
+    # A homeogeneous deployment
+    describe aws_ec2_instances do
+      its('instance_types.count') { should cmp 1 } 
+    end
+
+### private_ips
+
+Returns a list of strings reflecting the private IPs instances.
+
+    describe aws_ec2_instances do
+      its('private_ips') { should_not include('10.0.0.1') } 
+    end
+
+### statuses
+
+Returns a list of strings reflecting the _deduplicated_ statuses of the instances. If you have 5 running instances and 4 stopped instances, then you will have 2 entries in `statuses`.
+
+    # No zombies
+    describe aws_ec2_instances do
+      its('statuses') { should_not include 'unknown' } 
+    end
+
+### subnet_ids
+
+Returns a list of strings reflecting the _deduplicated_ IDs of the subnets in which the instances reside. If you have 5 instances in subnet-12345678 and 4 instances in subnet-87654321, then you will have 2 entries in `subnet_ids`.
+
+    # Make sure at least one instance is in a certain subnet 
+    describe aws_ec2_instances do
+      its('subnet_ids') { should include 'subnet-12345678' } 
+    end
+
+### vpc_ids
+
+Returns a list of strings reflecting the _deduplicated_ IDs of the VPCs in which the instances reside. If you have 5 instances in vpc-12345678 and 4 instances in vpc-87654321, then you will have 2 entries in `vpc_ids`.
+
+    # Make sure at least one instance is in a certain vpc 
+    describe aws_ec2_instances do
+      its('vpc_ids') { should include 'vpc-12345678' } 
+    end
 
 ### entries
 
@@ -51,7 +204,6 @@ Provides access to the raw results of the query, which can be treated as an arra
     describe aws_ec2_instances do
       its('entries.count') { should be <= 100}
     end
-
 
 ### instance_ids
 
