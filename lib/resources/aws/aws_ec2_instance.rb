@@ -123,6 +123,14 @@ EOX
     end
   end
 
+  def tags_hash
+    h = {}
+    tags.each do |kv|
+      h[kv[:key].to_sym] = kv[:value]
+    end
+    h
+  end
+
   def tags
     catch_aws_errors do
       @tags ||= instance.tags.map { |tag| { key: tag.key, value: tag.value } }
