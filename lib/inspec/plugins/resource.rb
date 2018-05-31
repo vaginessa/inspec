@@ -20,23 +20,92 @@ module Inspec
     def name(name = nil)
       return if name.nil?
       @name = name
+      @resource_metadata = {
+        name: name,
+        decription: '',
+        example: '',
+        limitations: '',
+        related_resources: [],
+        permissions_required: [],
+        platform_support: [],
+        resource_params: [],
+        properties: [],
+        matchers: [],
+        filter_criteria: [],
+        plural?: false
+      }
       __register(name, self)
+    end
+
+    def resource_metadata
+      @resource_metadata
     end
 
     def desc(description = nil)
       return if description.nil?
+      @resource_metadata[:description] = description
       __resource_registry[@name].desc(description)
     end
 
     def supports(criteria = nil)
       return if criteria.nil?
+      @resource_metadata[:platform_support].push(criteria)            
       Inspec::Resource.supports[@name] ||= []
       Inspec::Resource.supports[@name].push(criteria)
     end
 
     def example(example = nil)
       return if example.nil?
+      @resource_metadata[:examples] = example      
       __resource_registry[@name].example(example)
+    end
+
+    def plurality(arity = :singular)
+      # This may be nonbinary
+      if arity == :plural
+        @resource_metadata[:plural?] = true
+      end
+    end
+
+    def limitations(info = nil)
+      return if info.nil?
+      @resource_metadata[:limitations] = info
+    end
+
+    def related_resource(opts = {})
+      return if opts[:name].nil?
+      # :name, :description, :relation
+      @resource_metadata[:related_resources].push opts.dup
+    end
+
+    def resource_param(opts = {})
+      return if opts[:name].nil?
+      # :name, :type, :description, :example, :is_identifier
+      @resource_metadata[:resource_params].push opts.dup
+    end
+
+    def required_permission(opts = {})
+      return if opts[:name].nil?
+      # :name, :description
+      @resource_metadata[:permissions_required].push opts.dup
+    end
+
+    def property(opts = {})
+      return if opts[:name].nil?
+      # :name, :type, :description, :example, :identifier_for, :permissions_required, :see_also
+      @resource_metadata[:properties].push opts.dup
+    end
+
+    def matcher(opts = {})
+      return if opts[:name].nil?
+      # :name, :args (array of hash: name, type, description), :description, :example, :permissions_required, :see_also
+      @resource_metadata[:matchers].push opts.dup
+    end
+
+    def filter_criterion(opts = {})
+      return if opts[:name].nil?
+      # :name, :type, :description, :example, :permissions_required, :see_also
+      @resource_metadata[:filter_criteria].push opts.dup
     end
 
     def __resource_registry
@@ -88,6 +157,8 @@ module Inspec
           @example = example
         end
 
+
+
         def check_supports
           status = inspec.platform.supported?(@supports)
           skip_msg = "Resource #{@__resource_name__.capitalize} is not supported on platform #{inspec.platform.name}/#{inspec.platform.release}."
@@ -111,6 +182,10 @@ module Inspec
 
         def resource_failed?
           @resource_failed
+        end
+
+        def resource_metadata
+          @resource_metadata
         end
 
         def inspec

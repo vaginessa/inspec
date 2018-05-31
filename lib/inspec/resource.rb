@@ -24,6 +24,10 @@ module Inspec
       default_registry.dup
     end
 
+    def self.resource_metadata
+      @resource_metadata
+    end
+
     # Creates the inner DSL which includes all resources for
     # creating tests. It is always connected to one target,
     # which is specified via the backend argument.

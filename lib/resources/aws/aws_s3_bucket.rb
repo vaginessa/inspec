@@ -8,6 +8,15 @@ class AwsS3Bucket < Inspec.resource(1)
     end
   "
   supports platform: 'aws'
+  limitations <<-EOT
+S3 bucket security is a complex matter. For details on how AWS evaluates requests for access, please see [the AWS documentation](https://docs.aws.amazon.com/AmazonS3/latest/dev/how-s3-evaluates-access-control.html). S3 buckets and the objects they contain support three different types of access control: bucket ACLs, bucket policies, and object ACLs.
+
+As of January 2018, this resource supports evaluating bucket ACLs and bucket policies. We do not support evaluating object ACLs because it introduces scalability concerns in the AWS API; we recommend using AWS mechanisms such as CloudTrail and Config to detect insecure object ACLs.
+
+In particular, users of the `be_public` matcher should carefully examine the conditions under which the matcher will detect an insecure bucket. See the `be_public` section under the Matchers section below.
+EOT
+  required_permission name: 'GetBucketACL'
+  required_permission name: 'GetBucketLocation' # TODO more
 
   include AwsSingularResourceMixin
   attr_reader :bucket_name, :has_default_encryption_enabled, :has_access_logging_enabled, :region
@@ -16,6 +25,28 @@ class AwsS3Bucket < Inspec.resource(1)
     "S3 Bucket #{@bucket_name}"
   end
 
+  property(
+    name: :bucket_acl,
+    type: [Array, Struct],
+    description: <<~EOD,
+    The `bucket_acl` property is a low-level property that lists the individual Bucket ACL grants  in effect on the bucket.  Other higher-level properties, such as be\_public, are more concise and easier to use. You can use the `bucket_acl` property to investigate which grants are in effect, causing be\_public to fail.
+
+    The value of bucket_acl is  an array of simple objects.  Each object has a `permission` property and a `grantee` property.  The `permission` property will be a string such as 'READ', 'WRITE' etc (See the [AWS documentation](https://docs.aws.amazon.com/sdkforruby/api/Aws/S3/Client.html#get_bucket_acl-instance_method) for a full list).  The `grantee` property contains sub-properties, such as `type` and `uri`.
+    EOD
+    example: <<~EOE,
+    bucket_acl = aws_s3_bucket('my-bucket')
+
+    # Look for grants to "AllUsers" (that is, the public)
+    all_users_grants = bucket_acl.select do |g|
+      g.grantee.type == 'Group' && g.grantee.uri =~ /AllUsers/
+    end
+
+    # Look for grants to "AuthenticatedUsers" (that is, any authenticated AWS user - nearly public)
+    auth_grants = bucket_acl.select do |g|
+      g.grantee.type == 'Group' && g.grantee.uri =~ /AuthenticatedUsers/
+    end
+    EOE
+  )
   def bucket_acl
     catch_aws_errors do
       @bucket_acl ||= BackendFactory.create(inspec_runner).get_bucket_acl(bucket: bucket_name).grants
