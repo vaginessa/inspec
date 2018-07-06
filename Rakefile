@@ -348,4 +348,4 @@ namespace :www do
   end
 end
 
-require_relative 'tasks/orthodox'
+require_relative 'tasks/doc_analyzer'
