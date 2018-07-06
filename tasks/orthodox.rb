@@ -3,6 +3,7 @@
 require 'commonmarker'
 require 'octokit'
 require 'yaml'
+require 'set'
 
 module Orthodoxy
   class Releases
@@ -58,35 +59,39 @@ module Orthodoxy
   class Peeve
     attr_reader :name
     attr_reader :checker
-    attr_reader :message_maker
+    attr_reader :message
     attr_accessor :gripes
+    attr_accessor :whole_doc
 
-    def initialize(name, checker, message_maker)
+    def initialize(name, whole_doc, checker, message)
       @name = name
       @checker = checker
-      @message_maker = message_maker
+      @whole_doc = whole_doc
+      @message = message
       @gripes = []
     end
 
-    def check(node)
-      checker.call(node)
+    def check(doc)
+      if whole_doc
+        checker.call(self, doc)
+      else
+        doc.doc.walk do |node|
+          checker.call(self, node)
+        end
+      end
       gripes
     end
 
-    def message(node)
-      message_aker.call(node)
-    end
-
-    def add_gripe(node, severity=:fail, message=nil)
+    def add_gripe(node, severity=:fail, msg=nil)
       loc = unpack_location(node)
-      message ||= message(node)
-      @gripes << Gripe.new(severity, loc, message, name)
+      msg ||= message
+      @gripes << Gripe.new(severity, loc, msg, name)
     end
 
     private
     def unpack_location(node)
-      pos = node.source_pos
-      "#{pos.start_line}:#{pos.start_column}-#{pos.end_line}:#{pos.end_column}"
+      pos = node.sourcepos
+      "#{pos[:start_line]}:#{pos[:start_column]}-#{pos[:end_line]}:#{pos[:end_column]}"
     end
   end
 
@@ -101,17 +106,44 @@ module Orthodoxy
     def load_peeves
       peeves << Peeve.new(
         'UnescapedUnderScoreInHeading',
-        ->(node) do
+        false,
+        ->(peeve, node) do
           return [] unless node.type == :header
           if node.each do |header_text_node|
             header_text_node.type == :text and
             header_text_node.string_content =~ /[^\\]_/
           end then
-            add_gripe(header_text_node,:warn)
+            peeve.add_gripe(header_text_node,:warn)
           end
         end,
-        ->(node) { 'okey-dokey' },
+        'Underscores in headings must be escaped',
       )
+
+      peeves << Peeve.new(
+        'MartianSectionNames',
+        true,
+        ->(peeve, rdoc) do
+          allowed_section_names = [
+            'Syntax',
+            'Properties',
+            'Matchers',
+            'Limitations',
+            'Examples',
+            'Resource Parameters',
+          ]
+          rdoc.find_sections('.*', 2).each do |header_node|
+            text = header_node.to_plaintext.gsub("\n", '')
+            # Skip metadata-in-docs garbage
+            next if text =~ /^title: About/
+            next if text =~ /platform:/
+            unless allowed_section_names.include?(text)
+              peeve.add_gripe(header_node, :warn, "Unrecognized level 2 header '#{text}'")
+            end
+          end
+        end,
+        'Unrecognized level 2 header',
+      )
+
     end
   end
 end
@@ -160,24 +192,19 @@ namespace :orthodox do
 
   desc 'Look for things to complain about in each resource doc file'
   task :whinge do
-    # by peeve, by doc, gripes, by field
+    # by doc, by peeve, gripes, by field
     results = {}
+    Dir.glob('docs/resources/*.md.erb').sort.each do |md_file|
+      resource_doc = Orthodoxy::ResourceDoc.new(md_file)
+      doc_results = {}
 
-    whinger = Orthodoxy::WhingeOMatic.new
-    whinger.load_peeves # TODO filter here
-    whinger.peeves.each do |peeve|
-      peeve_results = {}
-      Dir.glob('docs/resources/*.md.erb').sort.each do |md_file|
-        resource_doc = Orthodoxy::ResourceDoc.new(md_file)
-        doc_results = []
-        resource_doc.doc.walk do |node|
-          peeve.check(node).each do |gripe|
-            doc_results << gripe.to_h
-          end
-        end
-        peeve_results[resource_doc.name] = doc_results unless doc_results.empty?
+      whinger = Orthodoxy::WhingeOMatic.new
+      whinger.load_peeves # TODO filter here
+      whinger.peeves.each do |peeve|
+        gripe_results = peeve.check(resource_doc).map(&:to_h)
+        doc_results[peeve.name] = gripe_results unless gripe_results.empty?
       end
-      results[peeve.name] = peeve_results unless peeve_results.empty?
+      results[resource_doc.name] = doc_results unless doc_results.empty?
     end
     puts({ 'whinge' => results }.to_yaml)
   end
