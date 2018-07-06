@@ -8,6 +8,7 @@ namespace :doc_analyze do
 
   desc 'Examine each resource file and determine its version marker'
   task :since do
+    release_lister = DocAnalyzer::ReleaseLister.new
     puts "since:"
     Dir.glob('docs/resources/*.md.erb').sort.each do |md_file|
       resource_doc = DocAnalyzer::MarkdownDoc.new(md_file)
@@ -31,7 +32,7 @@ namespace :doc_analyze do
       end
 
       # Filter out the CI tags, to get the releases.
-      first_released_in = DocAnalyzer::Releases.filter_tags(tags).first
+      first_released_in = release_lister.filter_tags(tags).first
       puts "    first_released_in: #{first_released_in}"
 
       # Examine markdown file to check for an Availability section
