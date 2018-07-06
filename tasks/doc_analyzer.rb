@@ -14,30 +14,14 @@ namespace :doc_analyze do
       resource_doc = DocAnalyzer::MarkdownDoc.new(md_file)
       puts "  #{resource_doc.name}:"
 
-      # Determine release that the file appeared in, if any.
-
-      # TODO: move this to the release analzyer lib
-      # Find commit hash in which a file was added
-      commit = `git log --follow --diff-filter=A --format=format:%h #{md_file} 2> /dev/null`
-      unless $?.success?
-        puts "    first_released_in: unknown"
-        next
-      end
-
-      # Lists all tags that contain the commit, including CI releases. Chronological order
-      tags = `git tag --list '*.*.*' --contains #{commit} 2>/dev/null`.split("\n")
-      if !$?.success? or tags.empty?
-        puts "    first_released_in: unknown"
-        next
-      end
-
-      # Filter out the CI tags, to get the releases.
-      first_released_in = release_lister.filter_tags(tags).first
-      puts "    first_released_in: #{first_released_in}"
+      release = release_lister.earliest_release_containing_file(md_file)
+      puts "    first_released_in: " + (release ? release : 'unknown')
+      next unless release
 
       # Examine markdown file to check for an Availability section
-      # require 'byebug'; byebug
       availability_sec = resource_doc.find_sections('Availability', 2).first
+      # TODO: detect level 3 Version section within Availability section
+      # TODO: verify value in text
       if availability_sec.nil?
         # TODO: inject availability section
         puts "    availability_section: no"
