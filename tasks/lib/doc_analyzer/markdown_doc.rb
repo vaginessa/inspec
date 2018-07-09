@@ -90,7 +90,7 @@ module DocAnalyzer
       # title: About the google_container_node_pool Resource
       # platform: gcp
       # ---
-      match = orig_content.match(/(---\ntitle:.+\nplatform:.+\n---\n)/m)
+      match = orig_content.match(/(---\ntitle:.+\n(platform:.+\n)?---\n)/m)
       unless match
         warn "WARN: refusing to write #{path}, could not find metadata block"
         return
