@@ -85,7 +85,7 @@ module DocAnalyzer
     end
 
     # We need a special write, because we insert non-md garbage metadata at the top of the file.
-    def write(path)
+    def write(path, width=0)
       # ---
       # title: About the google_container_node_pool Resource
       # platform: gcp
@@ -96,7 +96,7 @@ module DocAnalyzer
         return
       end
       metadata = match[1]
-      rendered_markdown = doc.to_commonmark
+      rendered_markdown = doc.to_commonmark(:DEFAULT, width)
       File.write(path, metadata + "\n" + rendered_markdown)
     end
 

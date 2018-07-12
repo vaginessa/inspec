@@ -3,7 +3,7 @@ require 'byebug'
 
 WORKING_DIR = '.'
 REPO = 'inspec/inspec'
-
+WIDTH=0 # No forced line wrap
 
 def process
   release_lister = DocAnalyzer::ReleaseLister.new(REPO, WORKING_DIR)
@@ -25,7 +25,7 @@ def process
       frag = make_core_availability_section(release)
       md_doc.inject_fragment_before(frag, cursor)
       # new_filename = md_filename.sub(/\.md/, '.new.md')
-      md_doc.write(md_filename)
+      md_doc.write(md_filename, WIDTH)
     end
   end
 end
@@ -45,7 +45,7 @@ def make_gcp_availability_section(release)
     You'll also need to setup your GCP credentials; see the resource pack [README](https://github.com/inspec/inspec-gcp#prerequisites).
     EOMD
 
-  unless release == 'unknown'
+  if release
     md_str += <<~EOMD
 
       ### Version
@@ -71,7 +71,7 @@ def make_azure_availability_section(release)
     You'll also need to setup your Azure credentials; see the resource pack [README](https://github.com/inspec/inspec-azure#inspec-for-azure).
     EOMD
 
-  unless release == 'unknown'
+  if release
     md_str += <<~EOMD
 
       ### Version
@@ -91,7 +91,7 @@ def make_core_availability_section(release)
     This resource is distributed along with InSpec itself. You can use it automatically.
   EOMD
 
-  unless release == 'unknown'
+  if release
     md_str += <<~EOMD
 
       ### Version
