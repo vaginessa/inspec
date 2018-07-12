@@ -9,6 +9,16 @@ Use the `processes` InSpec audit resource to test properties for programs that a
 
 <br>
 
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v1.0.0 of InSpec.
+
 ## Syntax
 
 A `processes` resource block declares the name of the process to be tested, and then declares one (or more) property/value pairs:
@@ -19,8 +29,8 @@ A `processes` resource block declares the name of the process to be tested, and 
 
 where
 
-* `processes('process_name')` specifies the name of a process to check. If this is a string, it will be converted to a Regexp. For more specificity, pass a Regexp directly. If left blank, all processes will be returned.
-* `property_name` may be used to test user (`its('users')`) and state properties (`its('states')`)
+  - `processes('process_name')` specifies the name of a process to check. If this is a string, it will be converted to a Regexp. For more specificity, pass a Regexp directly. If left blank, all processes will be returned.
+  - `property_name` may be used to test user (`its('users')`) and state properties (`its('states')`)
 
 <br>
 
@@ -39,18 +49,17 @@ The following examples show how to use this InSpec audit resource.
     describe processes('init') do
       its('users') { should eq ['root'] }
     end
-
+    
     describe processes('winlogon') do
       its('users') { should cmp "NT AUTHORITY\\SYSTEM" }
     end
-
 
 ### Test if a high-priority process is running
 
     describe processes('linux_process') do
       its('states') { should eq ['R<'] }
     end
-
+    
     describe processes('windows_process') do
       its('labels') { should cmp "High" }
     end
@@ -102,7 +111,7 @@ Below is a mapping table to help you understand what property the unix field map
 
 For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
-### property_name
+### property\_name
 
 The `property_name` matcher tests the named property for the specified value:
 

@@ -11,6 +11,16 @@ Use the `apache` InSpec audit resource to test the state of the Apache server on
 
 <br>
 
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v1.51.15 of InSpec.
+
 ## Syntax
 
 An `apache` InSpec audit resource block declares settings that should be tested:
@@ -21,14 +31,14 @@ An `apache` InSpec audit resource block declares settings that should be tested:
 
 where
 
-* `'setting_name'` is description of the Apache configuration file
-* `{ should cmp 'value' }` is the value that is expected
+  - `'setting_name'` is description of the Apache configuration file
+  - `{ should cmp 'value' }` is the value that is expected
 
 <br>
 
 ## Properties
 
-* `service`, `conf_dir`, `conf_path`, `user`
+  - `service`, `conf_dir`, `conf_path`, `user`
 
 <br>
 

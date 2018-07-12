@@ -9,6 +9,16 @@ Use the `wmi` InSpec audit resource to test WMI settings on the Windows platform
 
 <br>
 
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v1.0.0 of InSpec.
+
 ## Syntax
 
 A `wmi` resource block tests WMI settings on the Windows platform:
@@ -24,12 +34,12 @@ A `wmi` resource block tests WMI settings on the Windows platform:
 
 where
 
-* `class`, `namespace`, `filter`, and `query` comprise a Ruby Hash of the WMI object
-* `('class')` is the WMI class to which the setting belongs, such as `win32_service`
-* `('namespace')` is path to that object, such as `root\\cimv2`
-* Use `('filter')` fine-tune the information defined by the WMI class, such as to find a specific service (`filter: "name like '%winrm%'")`, to find a specific setting (`filter: 'KeyName = \'MinimumPasswordAge\' And precedence=1'`), and so on
-* Use `('query')` to run a query that returns data to be tested, such as `"SELECT Setting FROM RSOP_SecuritySettingBoolean WHERE KeyName='LSAAnonymousNameLookup' AND Precedence=1"`
-* `('setting_name')` is a setting in the WMI object to be tested, and then `should eq ''` is the expected value for that setting
+  - `class`, `namespace`, `filter`, and `query` comprise a Ruby Hash of the WMI object
+  - `('class')` is the WMI class to which the setting belongs, such as `win32_service`
+  - `('namespace')` is path to that object, such as `root\\cimv2`
+  - Use `('filter')` fine-tune the information defined by the WMI class, such as to find a specific service (`filter: "name like '%winrm%'")`, to find a specific setting (`filter: 'KeyName = \'MinimumPasswordAge\' And precedence=1'`), and so on
+  - Use `('query')` to run a query that returns data to be tested, such as `"SELECT Setting FROM RSOP_SecuritySettingBoolean WHERE KeyName='LSAAnonymousNameLookup' AND Precedence=1"`
+  - `('setting_name')` is a setting in the WMI object to be tested, and then `should eq ''` is the expected value for that setting
 
 For example, both of the following tests will verify if WinRM is present on the target node. The first tests if WinRM belongs to the list of services running under the `win32_service` class:
 

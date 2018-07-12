@@ -3,11 +3,21 @@ title: About the grub_conf Resource
 platform: linux
 ---
 
-# grub_conf
+# grub\_conf
 
 Grub is a boot loader on the Linux platform used to load and then transfer control to an operating system kernel, after which that kernel initializes the rest of the operating system. Use the `grub_conf` InSpec audit resource to test boot loader configuration settings that are defined in the `grub.conf` configuration file.
 
 <br>
+
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v1.0.0 of InSpec.
 
 ## Syntax
 
@@ -26,10 +36,10 @@ or:
 
 where
 
-* `'service_name'` is a service listed in the `grub.conf` file
-* `'path'` is the path to the `grub.conf` file
-* `'kernel'` specifies the default kernel (by using `'default'`) or a specific kernel; `'default'` defines the position in the list of kernels at which the default kernel is defined, i.e. `should eq '0'` for the first kernel listed or `'path', 'default'` to use the default kernel as specified in the `grub.conf` file
-* `'value'` is the value that is expected
+  - `'service_name'` is a service listed in the `grub.conf` file
+  - `'path'` is the path to the `grub.conf` file
+  - `'kernel'` specifies the default kernel (by using `'default'`) or a specific kernel; `'default'` defines the position in the list of kernels at which the default kernel is defined, i.e. `should eq '0'` for the first kernel listed or `'path', 'default'` to use the default kernel as specified in the `grub.conf` file
+  - `'value'` is the value that is expected
 
 <br>
 

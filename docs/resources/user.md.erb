@@ -9,6 +9,16 @@ Use the `user` InSpec audit resource to test user profiles for a single, known/e
 
 <br>
 
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v1.0.0 of InSpec.
+
 ## Syntax
 
 A `user` resource block declares a user name, and then one (or more) matchers:
@@ -28,9 +38,9 @@ A `user` resource block declares a user name, and then one (or more) matchers:
 
 where
 
-* `('root')` is the user to be tested
-* `it { should exist }` tests if the user exists
-* `gid`, `group`, `groups`, `home`, `maxdays`, `mindays`, `shell`, `uid`, and `warndays` are valid matchers for this resource
+  - `('root')` is the user to be tested
+  - `it { should exist }` tests if the user exists
+  - `gid`, `group`, `groups`, `home`, `maxdays`, `mindays`, `shell`, `uid`, and `warndays` are valid matchers for this resource
 
 <br>
 
@@ -45,7 +55,7 @@ The following examples show how to use this InSpec audit resource.
       its('uid') { should eq 0 }
       its('groups') { should eq ['root'] }
     end
-
+    
     describe user('mysql') do
      it { should_not exist }
     end
@@ -56,7 +66,7 @@ The `nginx` user is typically `www-data`, but on CentOS it's `nginx`. The follow
 
     web_user = 'www-data'
     web_user = 'nginx' if os[:family] == 'centos'
-
+    
     describe user(web_user) do
       it { should exist }
     end

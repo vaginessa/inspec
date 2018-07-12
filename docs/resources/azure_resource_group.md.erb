@@ -7,6 +7,16 @@ platform: azure
 
 Use the `azure_resource_group_resource_counts` InSpec audit resource to check the number of Azure resources in a resource group.
 
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v2.0.16 of InSpec.
+
 ## Syntax
 
 The name of the resource group is specified as a parameter on the resource:
@@ -17,9 +27,9 @@ The name of the resource group is specified as a parameter on the resource:
 
 where
 
-* `MyResourceGroup` is the name of the resource group being interrogated
-* `property` is one a resource property
-* `value` is the expected output from the matcher
+  - `MyResourceGroup` is the name of the resource group being interrogated
+  - `property` is one a resource property
+  - `value` is the expected output from the matcher
 
 ## Examples
 
@@ -46,13 +56,13 @@ The following examples show how to use this InSpec audit resource:
 
 ## Parameters
 
-* `group_name`, `name`
+  - `group_name`, `name`
 
 ## Parameter Examples
 
 The options that can be passed to the resource are as follows.
 
-### group_name (required)
+### group\_name (required)
 
 Use this parameter to define the Azure Resource Group to be tested.
 
@@ -72,8 +82,8 @@ If both `group_name` and `name` is set then `name` takes priority
 
 These options can also be set using the environment variables:
 
-* `AZURE_RESOURCE_GROUP_NAME`
-* `AZURE_RESOURCE_NAME`
+  - `AZURE_RESOURCE_GROUP_NAME`
+  - `AZURE_RESOURCE_NAME`
 
 When the options have been set as well as the environment variables, the environment variables take priority.
 
@@ -89,7 +99,7 @@ When the options have been set as well as the environment variables, the environ
 
 ## Properties
 
-* `name`, `location` ,`id`, `provisioning_state`, `subscription_id`, `total`, `nic_count`, `vm_count`, `extension_count`, `vnet_count`, `sa_count`, `public_ip_count`,`managed_disk_image_count`, `managed_disk_count`, `tag_count`
+  - `name`, `location` ,`id`, `provisioning_state`, `subscription_id`, `total`, `nic_count`, `vm_count`, `extension_count`, `vnet_count`, `sa_count`, `public_ip_count`,`managed_disk_image_count`, `managed_disk_count`, `tag_count`
 
 <br>
 
@@ -117,7 +127,7 @@ This takes the format: `/subscriptions/<SUBSCRIPTION_ID>/resourceGroups/<RESOURC
 
     its('id') { should cmp 'FQDN' }
 
-### provisioning_state
+### provisioning\_state
 
 Tests the provisioning state of the resource group.
 
@@ -129,26 +139,26 @@ Tests the total number of resources in the resource group.
 
     its('total') { should eq 13 }
 
-### nic_count
+### nic\_count
 
 Tests the number of network interface cards in the resource group.
 
     it { should have_nics }
     its('nic_count') { should eq 3 }
 
-### vm_count
+### vm\_count
 
 Tests the number of virtual machines in the resource group.
 
     its('vm_count') { should eq 5 }
 
-### vnet_count
+### vnet\_count
 
 Tests the number of virtual networks in the resource group.
 
     its('vnet_count') { should eq 5 }
 
-### sa_count
+### sa\_count
 
 Tests the number of storage accounts in the resource group.
 
@@ -184,31 +194,31 @@ This resource has a number of special matchers that provide a simple way to test
 
 For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
-### have_nics
+### have\_nics
 
 Use this matcher to test if network interfaces exist.
 
     it { should have_nics }
 
-### have_vms
+### have\_vms
 
 Use this matcher to test that virtual machines exist.
 
     it { should have_vms }
 
-### have_extensions
+### have\_extensions
 
 Use this matcher to test for virtual machine extensions.
 
     it { should have_extensions }
 
-### have_nsgs
+### have\_nsgs
 
 Use this matcher to test that network security groups exist.
 
     it { should have_nsgs }
 
-### have_vnets
+### have\_vnets
 
 Use this matcher to test that virtual networks exist.
 
@@ -226,7 +236,7 @@ Use this matcher to test that managed disk images exist.
 
     it { should have_managed_disk_images }
 
-### have_sas
+### have\_sas
 
 Use this matcher to test that storage accounts exist.
 
@@ -266,7 +276,7 @@ To get the value of the tag, some properties are created from the tags themselve
 
 For example, if the following tag is set on a resource:
 
-* owner: JG Jinglehimerschmidt
+  - owner: JG Jinglehimerschmidt
 
 Then a property is available called `Owner_tag`.
 
@@ -280,5 +290,5 @@ Note: The tag name is case sensitive which makes the test case sensitive. E.g. `
 
 For more information on Azure Ruby SDK resources, see:
 
-* [Azure Ruby SDK - Resources](https://github.com/Azure/azure-sdk-for-ruby/tree/master/management/azure_mgmt_resources)
-* [Resource Group](https://github.com/chef/inspec/blob/fc990346f2438690f0ac36a9f6606e61574a79b8/test/azure/verify/controls/resource_group.rb)
+  - [Azure Ruby SDK - Resources](https://github.com/Azure/azure-sdk-for-ruby/tree/master/management/azure_mgmt_resources)
+  - [Resource Group](https://github.com/chef/inspec/blob/fc990346f2438690f0ac36a9f6606e61574a79b8/test/azure/verify/controls/resource_group.rb)

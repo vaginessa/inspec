@@ -13,6 +13,16 @@ Each EC2 instance is uniquely identified by its ID.
 
 <br>
 
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v2.1.72 of InSpec.
+
 ## Syntax
 
 An `aws_ec2_instances` resource block collects a group of EC2 Instances and then tests that group.
@@ -21,7 +31,7 @@ An `aws_ec2_instances` resource block collects a group of EC2 Instances and then
     describe aws_ec2_instances do
       its('instance_ids.count') { should cmp 3 }
     end
-
+    
     # Use the InSpec resource to enumerate IDs, then test in-depth using `aws_ec2_instance`.
     aws_ec2_instances.instance_ids.each do |instance_id|
       describe aws_ec2_instance(instance_id) do
@@ -52,8 +62,7 @@ Provides access to the raw results of the query, which can be treated as an arra
       its('entries.count') { should be <= 100}
     end
 
-
-### instance_ids
+### instance\_ids
 
 Provides a list of the instance ids that were found in the query.
 
@@ -66,14 +75,15 @@ Provides a list of the instance ids that were found in the query.
 
 ## Matchers
 
-For a full list of available matchers, please visit our [Universal Matchers page](https://www.inspec.io/docs/reference/matchers/). 
+For a full list of available matchers, please visit our [Universal Matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### exist
 
 The control will pass if the filter returns at least one result. Use `should_not` if you expect zero matches.
 
-    # Verify that at least one EC2 Instance exists.
-    describe aws_ec2_instances
-      it { should exist }
-    end   
-
+``` 
+# Verify that at least one EC2 Instance exists.
+describe aws_ec2_instances
+  it { should exist }
+end   
+```

@@ -17,6 +17,16 @@ Every AWS account has at least one VPC, the "default" VPC, in every region.
 
 <br>
 
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v2.0.16 of InSpec.
+
 ## Syntax
 
 An `aws_vpc` resource block identifies a VPC by id. If no VPC ID is provided, the default VPC is used.
@@ -25,12 +35,12 @@ An `aws_vpc` resource block identifies a VPC by id. If no VPC ID is provided, th
     describe aws_vpc do
       it { should exist }
     end
-
+    
     # Find a VPC by ID
     describe aws_vpc('vpc-12345678') do
       it { should exist }
     end
-
+    
     # Hash syntax for ID
     describe aws_vpc(vpc_id: 'vpc-12345678') do
       it { should exist }
@@ -58,7 +68,7 @@ The following examples show how to use this InSpec audit resource.
 
 ## Properties
 
-* `cidr_block`, `dhcp_options_id`, `state`, `vpc_id`, `instance_tenancy`
+  - `cidr_block`, `dhcp_options_id`, `state`, `vpc_id`, `instance_tenancy`
 
 <br>
 

@@ -3,11 +3,21 @@ title: About the chocolatey_package Resource
 platform: windows
 ---
 
-# chocolatey_package
+# chocolatey\_package
 
 Use the `chocolatey_package` InSpec audit resource to test if the named [Chocolatey](https://chocolatey.org/) package and/or package version is installed on the system.
 
 <br>
+
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v2.1.30 of InSpec.
 
 ## Syntax
 
@@ -19,8 +29,8 @@ A `chocolatey_package` resource block declares the name of a Chocolatey package 
 
 where
 
-* `('name')` must specify the (case-sensitive) name of a package, such as `'nssm'`
-* `be_installed` is a valid matcher for this resource
+  - `('name')` must specify the (case-sensitive) name of a package, such as `'nssm'`
+  - `be_installed` is a valid matcher for this resource
 
 <br>
 
@@ -39,7 +49,7 @@ The following examples show how to use this InSpec audit resource
 
 For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers).
 
-### be_installed
+### be\_installed
 
 The `be_installed` matcher tests if the named package is installed at all.
 

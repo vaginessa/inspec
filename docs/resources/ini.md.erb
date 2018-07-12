@@ -9,6 +9,16 @@ Use the `ini` InSpec audit resource to test settings in an INI file.
 
 <br>
 
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v1.0.0 of InSpec.
+
 ## Syntax
 
 An `ini` resource block declares the configuration settings to be tested:
@@ -19,9 +29,9 @@ An `ini` resource block declares the configuration settings to be tested:
 
 where
 
-* `'setting_name'` is a setting key defined in the INI file
-* `('path')` is the path to the INI file
-* `{ should eq 'value' }` is the value that is expected
+  - `'setting_name'` is a setting key defined in the INI file
+  - `('path')` is the path to the INI file
+  - `{ should eq 'value' }` is the value that is expected
 
 For example:
 
@@ -35,7 +45,7 @@ Settings inside of sections, such as the following:
     [section_name]
     setting_name = 123
 
-... can be retrieved by prefixing the setting_name with the section.
+... can be retrieved by prefixing the setting\_name with the section.
 
     its('section_name.setting_name') { should cmp 123 }
 

@@ -9,6 +9,16 @@ Use the `virtualization` InSpec audit resource to test the virtualization platfo
 
 <br>
 
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v1.28.0 of InSpec.
+
 ## Syntax
 
 An `virtualization` resource block declares the virtualization platform that should be tested:
@@ -19,9 +29,9 @@ An `virtualization` resource block declares the virtualization platform that sho
 
 where
 
-* `('system')` is the name of the system information of the virtualization platform (e.g. docker, lxc, vbox, kvm, etc)
-* `MATCHER` is a valid matcher for this resource
-* `'value'` is the value to be tested
+  - `('system')` is the name of the system information of the virtualization platform (e.g. docker, lxc, vbox, kvm, etc)
+  - `MATCHER` is a valid matcher for this resource
+  - `'value'` is the value to be tested
 
 <br>
 

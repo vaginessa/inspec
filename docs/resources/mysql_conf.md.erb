@@ -3,11 +3,21 @@ title: About the mysql_conf Resource
 platform: os
 ---
 
-# mysql_conf
+# mysql\_conf
 
 Use the `mysql_conf` InSpec audit resource to test the contents of the configuration file for MySQL, typically located at `/etc/mysql/my.cnf` or `/etc/my.cnf`.
 
 <br>
+
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v1.0.0 of InSpec.
 
 ## Syntax
 
@@ -16,12 +26,12 @@ A `mysql_conf` resource block declares one (or more) settings in the `my.cnf` fi
     describe mysql_conf('path') do
       its('setting') { should eq 'value' }
     end
-
+    
     # Test a parameter set within the [mysqld] section
     describe mysql_conf do
       its('mysqld.port') { should cmp 3306 }
     end
-
+    
     # Test a parameter set within the [mariadb] section using array notation
     describe mysql_conf do
       its(['mariadb', 'max-connections']) { should_not be_nil }
@@ -29,10 +39,10 @@ A `mysql_conf` resource block declares one (or more) settings in the `my.cnf` fi
 
 where
 
-* `'setting'` specifies a setting in the `my.cnf` file, such as `max_connections`
-  * when checking a setting within sections, such as `[mysqld]`, the section name must be included
-* `('path')` is the non-default path to the `my.cnf` file
-* `should eq 'value'` is the value that is expected
+  - `'setting'` specifies a setting in the `my.cnf` file, such as `max_connections`
+      - when checking a setting within sections, such as `[mysqld]`, the section name must be included
+  - `('path')` is the non-default path to the `my.cnf` file
+  - `should eq 'value'` is the value that is expected
 
 <br>
 
@@ -47,7 +57,7 @@ The following examples show how to use this InSpec audit resource.
       its('max_user_connections') { should eq '500' }
     end
 
-### Test slow query logging**
+### Test slow query logging\*\*
 
     describe mysql_conf do
       its('slow_query_log_file') { should eq 'hostname_slow.log' }

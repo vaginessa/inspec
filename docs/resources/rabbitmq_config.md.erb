@@ -3,11 +3,21 @@ title: About the rabbitmq_config Resource
 platform: linux
 ---
 
-# rabbitmq_config
+# rabbitmq\_config
 
 Use the `rabbitmq_config` InSpec audit resource to test configuration data for the RabbitMQ daemon located at `/etc/rabbitmq/rabbitmq.config` on Linux and Unix platforms.
 
 <br>
+
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v1.20.0 of InSpec.
 
 ## Syntax
 
@@ -19,8 +29,8 @@ A `rabbitmq_config` resource block declares the RabbitMQ configuration data to b
 
 where
 
-* `params` is the list of parameters configured in the RabbitMQ config file
-* `{ should cmp 5671 }` tests the value of `rabbit.ssl_listeners` as read from `rabbitmq.config` versus the value declared in the test
+  - `params` is the list of parameters configured in the RabbitMQ config file
+  - `{ should cmp 5671 }` tests the value of `rabbit.ssl_listeners` as read from `rabbitmq.config` versus the value declared in the test
 
 <br>
 

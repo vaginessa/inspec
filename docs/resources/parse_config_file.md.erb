@@ -9,6 +9,16 @@ Use the `parse_config_file` InSpec audit resource to test arbitrary configuratio
 
 <br>
 
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v1.0.0 of InSpec.
+
 ## Syntax
 
 A `parse_config_file` InSpec audit resource block declares the location of the configuration file to be tested, and then which settings in that file are to be tested.
@@ -23,17 +33,17 @@ or:
       assignment_regex: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
       multiple_values: true
     }
-
+    
     describe parse_config_file('path/to/file', options) do
       its('setting') { should eq 1 }
     end
 
 where each test
 
-* Must declare the location of the configuration file to be tested
-* Must declare one (or more) settings to be tested
-* May run a command to `stdout`, and then run the test against that output
-* May use options to define how configuration data is to be parsed
+  - Must declare the location of the configuration file to be tested
+  - Must declare one (or more) settings to be tested
+  - May run a command to `stdout`, and then run the test against that output
+  - May use options to define how configuration data is to be parsed
 
 <br>
 
@@ -79,7 +89,7 @@ The following examples show how to use this InSpec audit resource.
 
 For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
-### assignment_regex
+### assignment\_regex
 
 Use `assignment_regex` to test a key value using a regular expression:
 
@@ -89,13 +99,13 @@ may be tested using the following regular expression, which determines assignmen
 
     assignment_regex: /^\s*([^=]*?)\s*=\s*(.*?)\s*$/
 
-### comment_char
+### comment\_char
 
 Use `comment_char` to test for comments in a configuration file:
 
     comment_char: '#'
 
-### key_values
+### key\_values
 
 Use `key_values` to test how many values a key contains:
 
@@ -105,7 +115,7 @@ contains three values. To test that value to ensure it only contains one, use:
 
     key_values: 1
 
-### multiple_values
+### multiple\_values
 
 Use `multiple_values` if the source file uses the same key multiple times. All values will be aggregated in an array:
 
@@ -125,7 +135,7 @@ To use plain key value mapping, use `multiple_values: false`:
     params['key'] = 'b'
     params['key2'] = 'c'
 
-### standalone_comments
+### standalone\_comments
 
 Use `standalone_comments` to parse comments as a line, otherwise inline comments are allowed:
 

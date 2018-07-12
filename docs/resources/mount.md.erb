@@ -9,6 +9,16 @@ Use the `mount` InSpec audit resource to test the mount points on FreeBSD and Li
 
 <br>
 
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v1.0.0 of InSpec.
+
 ## Syntax
 
 An `mount` resource block declares the synchronization settings that should be tested:
@@ -19,9 +29,9 @@ An `mount` resource block declares the synchronization settings that should be t
 
 where
 
-* `('path')` is the path to the mounted directory
-* `MATCHER` is a valid matcher for this resource
-* `'value'` is the value to be tested
+  - `('path')` is the path to the mounted directory
+  - `MATCHER` is a valid matcher for this resource
+  - `'value'` is the value to be tested
 
 <br>
 
@@ -44,7 +54,7 @@ The following examples show how to use this InSpec audit resource.
 
 For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
-### be_mounted
+### be\_mounted
 
 The `be_mounted` matcher tests if the file is accessible from the file system:
 

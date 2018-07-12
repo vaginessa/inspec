@@ -7,6 +7,16 @@ platform: azure
 
 Use this resource to ensure that a specific data disk attached to a machine has been created properly.
 
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v2.0.16 of InSpec.
+
 ## Syntax
 
 The name of the resource group and machine are required to use this resource.
@@ -17,10 +27,10 @@ The name of the resource group and machine are required to use this resource.
 
 where
 
-* `MyVm` is the name of the virtual machine as seen in Azure. (It is **not** the hostname of the machine)
-* `InSpec-Azure` is the name of the resource group that the machine is in.
-* `property` is a resource property
-* `value` is the expected output from the matcher
+  - `MyVm` is the name of the virtual machine as seen in Azure. (It is **not** the hostname of the machine)
+  - `InSpec-Azure` is the name of the resource group that the machine is in.
+  - `property` is a resource property
+  - `value` is the expected output from the matcher
 
 <br>
 
@@ -38,13 +48,13 @@ The following examples show to use this InSpec audit resource.
 
 ## Resource Parameters
 
-* `group_name`, `name`, `apiversion`
+  - `group_name`, `name`, `apiversion`
 
 ## Parameter Examples
 
 The options that can be passed to the resource are as follows.
 
-### group_name (required)
+### group\_name (required)
 
 Use this parameter to define the Azure Resource Group to be tested.
 
@@ -70,9 +80,9 @@ The API Version to use when querying the resource. Defaults to the latest versio
 
 These options can also be set using the environment variables:
 
-* `AZURE_RESOURCE_GROUP_NAME`
-* `AZURE_RESOURCE_NAME`
-* `AZURE_RESOURCE_API_VERSION`
+  - `AZURE_RESOURCE_GROUP_NAME`
+  - `AZURE_RESOURCE_NAME`
+  - `AZURE_RESOURCE_API_VERSION`
 
 When the options have been set as well as the environment variables, the environment variables take priority.
 
@@ -80,7 +90,7 @@ When the options have been set as well as the environment variables, the environ
 
 ## Filter Criteria
 
-* `number`, `disk`
+  - `number`, `disk`
 
 <br>
 
@@ -104,7 +114,7 @@ The '1' based index of the disk attached to the machine.
 
 ## Properties
 
-* `count`, `disk`, `number`, `name`, `size`, `lun`, `caching`, `create_option`, `is_managed_disk?`, `vhd_uri`, `storage_account_name`, `storage_account_type`, `id`, `subscription_id`, `resource_group`
+  - `count`, `disk`, `number`, `name`, `size`, `lun`, `caching`, `create_option`, `is_managed_disk?`, `vhd_uri`, `storage_account_name`, `storage_account_type`, `id`, `subscription_id`, `resource_group`
 
 <br>
 
@@ -154,14 +164,15 @@ Boolean stating if the disk is a managed disk or not. If it is not a managed dis
 
 ### vhd\_uri
 
-If this _not_ a managed disk, then the `vhd_uri` will be the full URI to the disk in the storage account.
+If this *not* a managed disk, then the `vhd_uri` will be the full URI to the disk in the storage account.
 
     its('vhd_uri') { should cmp '
-https://primary_storage.blob.core.windows.net/container_name/vm_name.vhd' }
+
+https://primary\_storage.blob.core.windows.net/container\_name/vm\_name.vhd' }
 
 ### storage\_account\_name
 
-If this is _not_ a managed disk this will be the storage account name in which the disk is stored.
+If this is *not* a managed disk this will be the storage account name in which the disk is stored.
 
 This derived from the `vhd_uri`.
 
@@ -197,7 +208,7 @@ This is derived from the `id`.
 
 <br>
 
-## Matchers
+\#\# Matchers
 
 This InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
@@ -219,6 +230,6 @@ Returns a boolean stating if the machine has Managed Disks for data disks.
 
 ## References
 
-* [Azure Ruby SDK - Compute](https://github.com/Azure/azure-sdk-for-ruby/tree/master/management/azure_mgmt_compute)
-* [Linux Internal Data Disks](https://github.com/chef/inspec/blob/master/test/azure/verify/controls/virtual_machine_linux_external_vm_datadisk.rb)
-* [Windows Internal Data Disk](https://github.com/chef/inspec/blob/master/test/azure/verify/controls/virtual_machine_windows_internal_vm_datadisk.rb)
+  - [Azure Ruby SDK - Compute](https://github.com/Azure/azure-sdk-for-ruby/tree/master/management/azure_mgmt_compute)
+  - [Linux Internal Data Disks](https://github.com/chef/inspec/blob/master/test/azure/verify/controls/virtual_machine_linux_external_vm_datadisk.rb)
+  - [Windows Internal Data Disk](https://github.com/chef/inspec/blob/master/test/azure/verify/controls/virtual_machine_windows_internal_vm_datadisk.rb)

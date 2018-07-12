@@ -9,6 +9,16 @@ Use the `aws_ec2_instance` InSpec audit resource to test properties of a single 
 
 <br>
 
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v2.0.16 of InSpec.
+
 ## Syntax
 
 An `aws_ec2_instance` resource block declares the tests for a single AWS EC2 instance by either name or id.
@@ -16,7 +26,7 @@ An `aws_ec2_instance` resource block declares the tests for a single AWS EC2 ins
     describe aws_ec2_instance('i-01a2349e94458a507') do
       it { should exist }
     end
-
+    
     describe aws_ec2_instance(name: 'my-instance') do
       it { should be_running }
     end
@@ -55,7 +65,7 @@ The following examples show how to use this InSpec audit resource.
 
 ## Properties
 
-* `architecture`, `client_token`, `image_id`,`instance_type`, `key_name`, `launch_time`,`private_ip_address`,  `private_dns_name`, `public_dns_name`, `public_ip_address`,  `root_device_type`, `root_device_name`, `security_group_ids`, `subnet_id`, `tags`,`virtualization_type`, `vpc_id`
+  - `architecture`, `client_token`, `image_id`,`instance_type`, `key_name`, `launch_time`,`private_ip_address`,  `private_dns_name`, `public_dns_name`, `public_ip_address`,  `root_device_type`, `root_device_name`, `security_group_ids`, `subnet_id`, `tags`,`virtualization_type`, `vpc_id`
 
 <br>
 

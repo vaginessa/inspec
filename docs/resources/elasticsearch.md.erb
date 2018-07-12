@@ -12,6 +12,16 @@ a variety of settings and statuses.
 
 <br>
 
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v1.43.5 of InSpec.
+
 ## Syntax
 
     describe elasticsearch do
@@ -24,17 +34,17 @@ a variety of settings and statuses.
 
 The `elasticsearch` resource accepts a number of optional resource parameters:
 
- * `url`: the top-level URL of an Elasticsearch node in the cluster. If your Elasticsearch installation is not served out of the top-level directory at the host, be sure to specific the full URL; for example: `http://my-load-balancer/elasticsearch`. Default: `http://localhost:9200`
- * `username`: a username to use to log in with HTTP-Basic authentication. If `username` is provided, a `password` must also be provided.
- * `password`: a password to use to log in with HTTP-Basic authentication. If `password` is provided, a `username` must also be provided.
- * `ssl_verify`: if `false`, SSL certificate validation will be disabled. Default: `true`
+  - `url`: the top-level URL of an Elasticsearch node in the cluster. If your Elasticsearch installation is not served out of the top-level directory at the host, be sure to specific the full URL; for example: `http://my-load-balancer/elasticsearch`. Default: `http://localhost:9200`
+  - `username`: a username to use to log in with HTTP-Basic authentication. If `username` is provided, a `password` must also be provided.
+  - `password`: a password to use to log in with HTTP-Basic authentication. If `password` is provided, a `username` must also be provided.
+  - `ssl_verify`: if `false`, SSL certificate validation will be disabled. Default: `true`
 
 In addition, the `elasticsearch` resource allows for filtering the nodes returned by property before executing the tests:
 
     describe elasticsearch.where { node_name == 'one-off-node' } do
       its('version') { should eq '1.2.3' }
     end
-
+    
     describe elasticsearch.where { process.mlockall == false } do
       its('count') { should cmp 0 }
     end
@@ -51,7 +61,7 @@ To simply check if nodes exist that match the criteria, use the `exist` matcher:
 
 The following properties are provided:
 
-* build\_hash cluster\_name, host, http, ingest, ip, jvm, module\_list, modules, node\_name, node\_id, os, plugin\_list, plugins, process, roles, settings, total\_indexing\_buffer, transport, transport\_address, version
+  - build\_hash cluster\_name, host, http, ingest, ip, jvm, module\_list, modules, node\_name, node\_id, os, plugin\_list, plugins, process, roles, settings, total\_indexing\_buffer, transport, transport\_address, version
 
 Since the `elasticsearch` resource is meant for use on a cluster, each property will return an array of the values for each node that matches any provided search criteria. Using InSpec's `cmp` matcher helps avoid issues when comparing values when there is only a single match (i.e. when the cluster only contains a single node, or the `where` filter criteria provided only returns a single node).
 
@@ -59,7 +69,7 @@ Since the `elasticsearch` resource is meant for use on a cluster, each property 
 
 ## Property Examples
 
-### build_hash
+### build\_hash
 
 Returns the build hash for each of the nodes.
 
@@ -67,7 +77,7 @@ Returns the build hash for each of the nodes.
       its('build_hash') { should cmp 'b2f0c09' }
     end
 
-### cluster_name
+### cluster\_name
 
 Returns the cluster names of each of the nodes.
 
@@ -115,7 +125,7 @@ Returns Java Virtual Machine related parameters for each of the nodes.
       its('jvm.first.version') { should cmp '1.8.0_141' }
     end
 
-### module_list
+### module\_list
 
 Returns a list of enabled modules for each node in the cluster. For more additional information about each module, use the `modules` property.
 
@@ -129,13 +139,13 @@ Returns detailed information about each enabled module for each node in the clus
 
     modules = elasticsearch.modules.first
     lang_groovy_module = modules.find { |mod| mod.name == 'lang-groovy' }
-
+    
     describe 'lang-groovy module version' do
       subject { lang_groovy_module }
       its('version') { should cmp '5.5.2' }
     end
 
-### node_name
+### node\_name
 
 Returns the node name for each node in the cluster.
 
@@ -143,7 +153,7 @@ Returns the node name for each node in the cluster.
       its('node_name') { should cmp 'node1' }
     end
 
-### node_id
+### node\_id
 
 Returns the node IDs of each of the nodes in the cluster.
 
@@ -159,7 +169,7 @@ Returns OS-related information about each node in the cluster.
       its('os.first.arch') { should cmp 'amd64' }
     end
 
-### plugin_list
+### plugin\_list
 
 Returns a list of enabled plugins for each node in the cluster. For more additional information about each plugin, use the `plugins` property.
 
@@ -173,7 +183,7 @@ Returns detailed information about each enabled plugin for each node in the clus
 
     plugins = elasticsearch.plugins.first
     my_plugin = plugins.find { |plugin| plugin.name == 'my_plugin' }
-
+    
     describe 'my_plugin plugin version' do
       subject { my_plugin }
       its('version') { should cmp '1.2.3' }
@@ -203,7 +213,7 @@ Returns all the configuration settings for each node in the cluster. These setti
       its('settings.first.path.home') { should cmp '/usr/share/elasticsearch' }
     end
 
-### total_indexing_buffer
+### total\_indexing\_buffer
 
 Returns the total indexing buffer for each node in the cluster.
 
@@ -219,7 +229,7 @@ Returns transport-related settings for each node in the cluster, such as the bou
       its('transport.first.bound_address') { should cmp '1.2.3.4:9200' }
     end
 
-### transport_address
+### transport\_address
 
 Returns the bound transport address for each node in the cluster.
 

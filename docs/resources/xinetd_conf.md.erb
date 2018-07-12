@@ -3,11 +3,21 @@ title: About the xinetd_conf Resource
 platform: linux
 ---
 
-# xinetd_conf
+# xinetd\_conf
 
 Use the `xinetd_conf` InSpec audit resource to test services under `/etc/xinet.d` on Linux and Unix platforms. xinetd---the extended Internet service daemon---listens on all ports, and then loads the appropriate program based on a request. The `xinetd.conf` file is typically located at `/etc/xinetd.conf` and contains a list of Internet services associated to the ports on which that service will listen. Only enabled services may handle a request; only services that are required by the system should be enabled.
 
 <br>
+
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v1.0.0 of InSpec.
 
 ## Syntax
 
@@ -20,9 +30,9 @@ An `xinetd_conf` resource block declares settings found in a `xinetd.conf` file 
 
 where
 
-* `'service_name'` is a service located under `/etc/xinet.d`
-* `('setting')` is a setting in the `xinetd.conf` file
-* `should eq 'value'` is the value that is expected
+  - `'service_name'` is a service located under `/etc/xinet.d`
+  - `('setting')` is a setting in the `xinetd.conf` file
+  - `should eq 'value'` is the value that is expected
 
 <br>
 
@@ -30,7 +40,7 @@ where
 
 The following examples show how to use this InSpec audit resource.
 
-### Test a socket_type
+### Test a socket\_type
 
 The network socket type: `dgram` (a datagram-based service), `raw` (a service that requires direct access to an IP address), `stream` (a stream-based service), or `seqpacket` (a service that requires a sequenced packet).
 
@@ -93,7 +103,7 @@ All three settings can be tested in the same block as well:
 
 For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
-### be_enabled
+### be\_enabled
 
 The `be_enabled` matcher tests if a service listed under `/etc/xinet.d` is enabled:
 
@@ -115,7 +125,7 @@ The `services` matcher tests if the named service is listed under `/etc/xinet.d`
 
     its('services') { should include 'service_name' }
 
-### socket_types
+### socket\_types
 
 The `socket_types` matcher tests if a service listed under `/etc/xinet.d` is configured to use the named socket type:
 

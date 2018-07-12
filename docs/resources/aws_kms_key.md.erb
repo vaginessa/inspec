@@ -6,28 +6,38 @@ title: About the aws_kms_key Resource
 
 Use the `aws_kms_key` InSpec audit resource to test properties of a single AWS KMS Key.
 
-Use aws_kms_key to verify the properties of a single key. Use aws_kms_keys to verify the properties of all or a group of keys.
+Use aws\_kms\_key to verify the properties of a single key. Use aws\_kms\_keys to verify the properties of all or a group of keys.
 
 AWS Key Management Service (AWS KMS) is a managed service that makes it easy for you to create and control the encryption keys used to encrypt your data. AWS KMS lets you create master keys that can never be exported from the service and which can be used to encrypt and decrypt data based on policies you define.
 
-Each AWS KMS Key is uniquely identified by its key_id or arn.
+Each AWS KMS Key is uniquely identified by its key\_id or arn.
 
 <br>
 
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v2.1.21 of InSpec.
+
 ## Syntax
 
-An aws_kms_key resource block identifies a key by key_arn or the key id.
+An aws\_kms\_key resource block identifies a key by key\_arn or the key id.
 
     # Find a kms key by arn
     describe aws_kms_key('arn:aws:kms:us-east-1::key/4321dcba-21io-23de-85he-ab0987654321') do
       it { should exist }
     end
-
+    
     # Find a kms key by just the id
     describe aws_kms_key('4321dcba-21io-23de-85he-ab0987654321') do
       it { should exist }
     end
-
+    
     # Hash syntax for key arn
     describe aws_kms_key(key_arn: 'arn:aws:kms:us-east-1::key/4321dcba-21io-23de-85he-ab0987654321') do
       it { should exist }
@@ -77,7 +87,7 @@ The ARN identifier of the specified key. An ARN uniquely identifies the key with
       its('arn') { should cmp "arn:aws:kms:us-east-1::key/4321dcba-21io-23de-85he-ab0987654321" }
     end
 
-### creation_date
+### creation\_date
 
 Specifies the date and time when the key was created.
 
@@ -93,7 +103,6 @@ Specifies the number of days since the key was created.
     describe aws_kms_key('arn:aws:kms:us-east-1::key/4321dcba-21io-23de-85he-ab0987654321') do
       its('created_days_ago') { should be > 10 }
     end
-
 
 ### key\_state
 
@@ -121,7 +130,7 @@ Specifies the date and time after which AWS KMS deletes the key. This value is p
 
 ### invalidation\_time
 
-Provides the date and time until the key is not valid.  Once the key is not valid, AWS KMS deletes the key and it becomes unusable.  This value will be null unless the keys Origin is EXTERNAL and its matcher have_key_expiration is set to true.
+Provides the date and time until the key is not valid.  Once the key is not valid, AWS KMS deletes the key and it becomes unusable.  This value will be null unless the keys Origin is EXTERNAL and its matcher have\_key\_expiration is set to true.
 
     describe aws_kms_key('arn:aws:kms:us-east-1::key/4321dcba-21io-23de-85he-ab0987654321') do
       its('invalidation_time') { should cmp > Time.now + 7 * 86400 }
@@ -133,13 +142,14 @@ This InSpec audit resource has the following special matchers. For a full list o
 
 ### be\_enabled
 
-The test will pass if the specified key's key_state is set to enabled.
+The test will pass if the specified key's key\_state is set to enabled.
 
     describe aws_kms_key('arn:aws:kms:us-east-1::key/4321dcba-21io-23de-85he-ab0987654321') do
       it { should be_enabled }
     end
 
 ### be\_external
+
 Provides whether the source of the key's key material is external or not.  If it is not external than it was created by AWS KMS.  When it is external, the key material was imported from an existing key management infrastructure or the key lacks key material.
 
     describe aws_kms_key('arn:aws:kms:us-east-1::key/4321dcba-21io-23de-85he-ab0987654321') do

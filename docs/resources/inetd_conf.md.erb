@@ -3,11 +3,21 @@ title: About the inetd_conf Resource
 platform: linux
 ---
 
-# inetd_conf
+# inetd\_conf
 
 Use the `inetd_conf` InSpec audit resource to test if a service is listed in the `inetd.conf` file on Linux and Unix platforms. inetd---the Internet service daemon---listens on dedicated ports, and then loads the appropriate program based on a request. The `inetd.conf` file is typically located at `/etc/inetd.conf` and contains a list of Internet services associated to the ports on which that service will listen. Only enabled services may handle a request; only services that are required by the system should be enabled.
 
 <br>
+
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v1.0.0 of InSpec.
 
 ## Syntax
 
@@ -19,9 +29,9 @@ An `inetd_conf` resource block declares the list of services that are enabled in
 
 where
 
-* `'service_name'` is a service listed in the `inetd.conf` file
-* `('path')` is the non-default path to the `inetd.conf` file
-* `should eq 'value'` is the value that is expected
+  - `'service_name'` is a service listed in the `inetd.conf` file
+  - `('path')` is the non-default path to the `inetd.conf` file
+  - `should eq 'value'` is the value that is expected
 
 <br>
 
@@ -35,7 +45,7 @@ This resource supports any of the properties listed as services in the `inetd.co
 
 The following examples show how to use this InSpec audit resource.
 
-### Basic tests for inetd_conf services:
+### Basic tests for inetd\_conf services:
 
     its('shell') { should eq nil }
 
@@ -81,7 +91,7 @@ then the same test will return `false` for `ftp` and the entire test will fail.
     describe package('telnetd') do
       it { should_not be_installed }
     end
-
+    
     describe inetd_conf do
       its('telnet') { should eq nil }
     end
@@ -91,4 +101,3 @@ then the same test will return `false` for `ftp` and the entire test will fail.
 ## Matchers
 
 For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
-

@@ -3,11 +3,21 @@ title: About the audit_policy Resource
 platform: linux
 ---
 
-# audit_policy
+# audit\_policy
 
 Use the `audit_policy` InSpec audit resource to test auditing policies on the Windows platform. An auditing policy is a category of security-related events to be audited. Auditing is disabled by default and may be enabled for categories like account management, logon events, policy changes, process tracking, privilege use, system events, or object access. For each enabled auditing category property, the auditing level may be set to `No Auditing`, `Not Specified`, `Success`, `Success and Failure`, or `Failure`.
 
 <br>
+
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v1.0.0 of InSpec.
 
 ## Syntax
 
@@ -19,8 +29,8 @@ An `audit_policy` resource block declares a parameter that belongs to an audit p
 
 where
 
-* `'parameter'` must specify a parameter
-* `'value'` must be one of `No Auditing`, `Not Specified`, `Success`, `Success and Failure`, or `Failure`
+  - `'parameter'` must specify a parameter
+  - `'value'` must be one of `No Auditing`, `Not Specified`, `Success`, `Success and Failure`, or `Failure`
 
 <br>
 

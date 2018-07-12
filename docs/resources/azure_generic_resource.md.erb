@@ -8,6 +8,16 @@ title: About the azure_generic_resource Resource
 
 Use the `azure_generic_resource` InSpec audit resource to test any valid Azure Resource. This is very useful if you need to test something that we do not yet have a specific Inspec resource for.
 
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v2.0.16 of InSpec.
+
 ## Syntax
 
     describe azure_generic_resource(group_name: 'MyResourceGroup', name: 'MyResource') do
@@ -16,16 +26,16 @@ Use the `azure_generic_resource` InSpec audit resource to test any valid Azure R
 
 where
 
-* `MyResourceGroup` is the name of the resource group that contains the Azure Resource to be validated
-* `MyResource` is the name of the resource that needs to be checked
-* `property` This generic resource dynamically creates the properties on the fly based on the type of resource that has been targeted.
-* `value` is the expected output from the chosen property
+  - `MyResourceGroup` is the name of the resource group that contains the Azure Resource to be validated
+  - `MyResource` is the name of the resource that needs to be checked
+  - `property` This generic resource dynamically creates the properties on the fly based on the type of resource that has been targeted.
+  - `value` is the expected output from the chosen property
 
 <br>
 
 ## Parameters
 
-* `group_name`, `name`, `apiversion`, `type`
+  - `group_name`, `name`, `apiversion`, `type`
 
 <br>
 
@@ -33,7 +43,7 @@ where
 
 The options that can be passed to the resource are as follows.
 
-### group_name (required)
+### group\_name (required)
 
 Use this parameter to define the Azure Resource Group to be tested.
 
@@ -67,10 +77,10 @@ Use this parameter to define the type of resources to test.
 
 These options can also be set using the environment variables:
 
-* `AZURE_RESOURCE_GROUP_NAME`
-* `AZURE_RESOURCE_NAME`
-* `AZURE_RESOURCE_TYPE`
-* `AZURE_RESOURCE_API_VERSION`
+  - `AZURE_RESOURCE_GROUP_NAME`
+  - `AZURE_RESOURCE_NAME`
+  - `AZURE_RESOURCE_TYPE`
+  - `AZURE_RESOURCE_API_VERSION`
 
 When the options have been set as well as the environment variables, the environment variables take priority.
 
@@ -88,7 +98,7 @@ When the options have been set as well as the environment variables, the environ
 
 The properties that can be tested are entirely dependent on the Azure Resource that is under scrutiny. That means the properties vary. The best way to see what is available please use the [Azure Resources Portal](https://resources.azure.com) to select the resource you are interested in and see what can be tested.
 
-This resource allows you to test _any_ valid Azure Resource. The trade off for this is that the language to check each item is not as natural as it would be for a native Inspec resource.
+This resource allows you to test *any* valid Azure Resource. The trade off for this is that the language to check each item is not as natural as it would be for a native Inspec resource.
 
 <br>
 

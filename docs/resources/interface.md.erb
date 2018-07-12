@@ -7,10 +7,20 @@ platform: os
 
 Use the `interface` InSpec audit resource to test basic network adapter properties, such as name, status, and link speed (in MB/sec).
 
-* On Linux platforms, `/sys/class/net/#{iface}` is used as source
-* On the Windows platform, the `Get-NetAdapter` cmdlet is used as source
+  - On Linux platforms, `/sys/class/net/#{iface}` is used as source
+  - On the Windows platform, the `Get-NetAdapter` cmdlet is used as source
 
 <br>
+
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v1.0.0 of InSpec.
 
 ## Syntax
 
@@ -50,9 +60,8 @@ The `speed` matcher tests the speed of the network interface, in MB/sec:
 
 For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
-### be_up
+### be\_up
 
 The `be_up` matcher tests if the network interface is available:
 
     it { should be_up }
-

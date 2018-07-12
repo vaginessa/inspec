@@ -9,6 +9,16 @@ Use the `ssl` InSpec audit resource to test SSL settings for the named port.
 
 <br>
 
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v1.0.0 of InSpec.
+
 ## Syntax
 
 An `ssl` resource block declares an SSL port, and then other properties of the test like cipher and/or protocol:
@@ -25,8 +35,8 @@ or:
 
 where
 
-* `ssl(port: #)` is the port number, such as `ssl(port: 443)`
-* `filter` may take any of the following arguments: `ciphers`, `protocols`, and `handshake`
+  - `ssl(port: #)` is the port number, such as `ssl(port: 443)`
+  - `filter` may take any of the following arguments: `ciphers`, `protocols`, and `handshake`
 
 <br>
 
@@ -39,11 +49,11 @@ The following examples show how to use this InSpec audit resource.
 The following shows how to use the `ssl` InSpec audit resource to find all TCP ports on the system, including IPv4 and IPv6. (This is a partial example based on the `ssl_text.rb` file in the `ssl-benchmark` profile on GitHub.)
 
     ...
-
+    
     control 'tls1.2' do
       title 'Run TLS 1.2 whenever SSL is active on a port'
       impact 0.5
-
+    
       sslports.each do |socket|
         proc_desc = "on node == #{command('hostname').stdout.strip} running #{socket.process.inspect} (#{socket.pid})"
         describe ssl(port: socket.port).protocols('tls1.2') do
@@ -52,13 +62,13 @@ The following shows how to use the `ssl` InSpec audit resource to find all TCP p
         end
       end
     end
-
+    
     ...
-
+    
     control 'rc4' do
       title 'Disable RC4 ciphers from all exposed SSL/TLS ports and versions.'
       impact 0.5
-
+    
       sslports.each do |socket|
         proc_desc = "on node == #{command('hostname').stdout.strip} running #{socket.process.inspect} (#{socket.pid})"
         describe ssl(port: socket.port).ciphers(/rc4/i) do
@@ -88,7 +98,7 @@ Or execute the profile directly via URL:
 
 For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
-### be_enabled
+### be\_enabled
 
 The `be_enabled` matcher tests if SSL is enabled:
 

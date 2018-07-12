@@ -3,11 +3,21 @@ title: About the iis_app Resource
 platform: windows
 ---
 
-# iis_app
+# iis\_app
 
 Use the `iis_app` InSpec audit resource to test the state of IIS on Windows Server 2012 (and later).
 
 <br>
+
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v1.28.0 of InSpec.
 
 ## Syntax
 
@@ -24,11 +34,11 @@ An `iis_app` resource block declares details about the named site:
 
 where
 
-* `'application_path'` is the path to the application, such as `'/myapp'`
-* `'site_name'` is the name of the site, such as `'Default Web Site'`
-* `('application_pool')` is the name of the application pool in which the site's root application is run, such as `'DefaultAppPool'`
-* `('protocols')` is a binding for the site, such as `'http'`. A site may have multiple bindings; therefore, use a `have_protocol` matcher for each site protocol to be tested
-* `('physical_path')` is the physical path to the application, such as `'C:\\inetpub\\wwwroot\\myapp'`
+  - `'application_path'` is the path to the application, such as `'/myapp'`
+  - `'site_name'` is the name of the site, such as `'Default Web Site'`
+  - `('application_pool')` is the name of the application pool in which the site's root application is run, such as `'DefaultAppPool'`
+  - `('protocols')` is a binding for the site, such as `'http'`. A site may have multiple bindings; therefore, use a `have_protocol` matcher for each site protocol to be tested
+  - `('physical_path')` is the physical path to the application, such as `'C:\\inetpub\\wwwroot\\myapp'`
 
 For example:
 
@@ -44,6 +54,7 @@ For example:
 <br>
 
 ## Properties
+
 application\_pool, path, physical\_path, protocols, site\_name
 
 <br>
@@ -87,7 +98,7 @@ The `have_application_pool` matcher tests if the named application pool exists f
 
     it { should have_application_pool('DefaultAppPool') }
 
-### have_protocol
+### have\_protocol
 
 The `have_protocol` matcher tests if the specified protocol exists for the web application:
 

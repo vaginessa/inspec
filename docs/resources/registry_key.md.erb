@@ -3,11 +3,21 @@ title: About the registry_key Resource
 platform: windows
 ---
 
-# registry_key
+# registry\_key
 
 Use the `registry_key` InSpec audit resource to test key values in the Windows registry.
 
 <br>
+
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v1.0.0 of InSpec.
 
 ## Syntax
 
@@ -35,7 +45,6 @@ Or use a Ruby Hash:
       its('Start') { should eq 2 }
     end
 
-
 ### Registry Key Path Separators
 
 A Windows registry key can be used as a string in Ruby code, such as when a registry key is used as the name of a recipe. In Ruby, when a registry key is enclosed in a double-quoted string (`" "`), the same backslash character (`\`) that is used to define the registry key path separator is also used in Ruby to define an escape character. Therefore, the registry key path separators must be escaped when they are enclosed in a double-quoted string. For example, the following registry key:
@@ -49,7 +58,6 @@ may be enclosed in a single-quoted string with a single backslash:
 or may be enclosed in a double-quoted string with an extra backslash as an escape character:
 
     "HKCU\\SOFTWARE\\path\\to\\key\\Themes"
-
 
 <p class="warning">
 Please make sure that you use backslashes instead of forward slashes. Forward slashes will not work for registry keys.
@@ -123,7 +131,7 @@ The `exist` matcher tests if the registry key is present:
 
     it { should exist }
 
-### have_property
+### have\_property
 
 The `have_property` matcher tests if a property exists for a registry key:
 
@@ -135,7 +143,7 @@ The `have_property_value` matcher tests if a property value exists for a registr
 
     it { should have_property_value 'value' }
 
-### have_value
+### have\_value
 
 The `have_value` matcher tests if a value exists for a registry key:
 
@@ -146,7 +154,6 @@ The `have_value` matcher tests if a value exists for a registry key:
 The `name` matcher tests the value for the specified registry setting:
 
     its('name') { should eq 'value' }
-
 
 <p class="warning">
 Any name with a dot will not work as expected: <code>its('explorer.exe') { should eq 'test' }</code>. This issue is tracked in <a href="https://github.com/chef/inspec/issues/1281">https://github.com/chef/inspec/issues/1281</a>

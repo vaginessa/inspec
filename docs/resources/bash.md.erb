@@ -9,6 +9,16 @@ Use the `bash` InSpec audit resource to test an arbitrary command that is run on
 
 <br>
 
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v1.0.0 of InSpec.
+
 ## Syntax
 
 A `command` resource block declares a command to be run, one (or more) expected outputs, and the location to which that output is sent:
@@ -20,9 +30,9 @@ A `command` resource block declares a command to be run, one (or more) expected 
 
 where
 
-* `'command'` must specify a command to be run
-* `'property'` is one of `exit_status`, `stderr`, or `stdout`
-* `'expected value'` tests the output of the command run on the system versus the expected output stated in the test
+  - `'command'` must specify a command to be run
+  - `'property'` is one of `exit_status`, `stderr`, or `stdout`
+  - `'expected value'` tests the output of the command run on the system versus the expected output stated in the test
 
 For example:
 
@@ -36,13 +46,13 @@ For example:
 
 ## Properties
 
-* `exit_status`, `stderr`, `stdout`
+  - `exit_status`, `stderr`, `stdout`
 
 <br>
 
 ## Property Examples
 
-### exit_status
+### exit\_status
 
 The `exit_status` property tests the exit status for the command:
 
@@ -71,5 +81,3 @@ For a full list of available matchers, please visit our [matchers page](https://
 If an absolute path is provided, the `exist` matcher tests if the command exists on the filesystem at the specified location. Otherwise, the `exist` matcher tests if the command is found in the PATH.
 
     it { should exist }
-
-

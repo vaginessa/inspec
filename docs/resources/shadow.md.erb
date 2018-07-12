@@ -9,14 +9,14 @@ Use the `shadow` InSpec audit resource to test the contents of `/etc/shadow`, wh
 
 The format for `/etc/shadow` includes:
 
-* A username
-* The hashed password for that user
-* The last date a password was changed, as the number of days since Jan 1 1970
-* The minimum number of days a password must exist, before it may be changed
-* The maximum number of days after which a password must be changed
-* The number of days a user is warned about an expiring password
-* The number of days a user must be inactive before the user account is disabled
-* The date on which a user account was disabled, as the number of days since Jan 1 1970
+  - A username
+  - The hashed password for that user
+  - The last date a password was changed, as the number of days since Jan 1 1970
+  - The minimum number of days a password must exist, before it may be changed
+  - The maximum number of days after which a password must be changed
+  - The number of days a user is warned about an expiring password
+  - The number of days a user must be inactive before the user account is disabled
+  - The date on which a user account was disabled, as the number of days since Jan 1 1970
 
 These entries are defined as a colon-delimited row in the file, one row per user:
 
@@ -26,6 +26,16 @@ The `shadow` resource understands this format, allows you to search on the field
 
 <br>
 
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v1.0.0 of InSpec.
+
 ## Resource Parameters
 
 The `shadow` resource takes one optional parameter: the path to the shadow file. If omitted, `/etc/shadow` is assumed.
@@ -34,7 +44,7 @@ The `shadow` resource takes one optional parameter: the path to the shadow file.
     describe shadow do
       its('count') { should eq 32 }
     end
-
+    
     # Use a custom location
     describe shadow('/etc/my-custom-place/shadow') do
       its('count') { should eq 32 }
@@ -48,7 +58,7 @@ A `shadow` resource block uses `where` to filter entries from the shadow file. I
     describe shadow do
       its('users') { should_not include 'forbidden_user' }
     end
-
+    
     # Ensure there is only one user named 'root' (Select all with name 'root', then count them).
     describe shadow.where(user: 'root') do
       its('count') { should eq 1 }
@@ -61,13 +71,13 @@ Use `where` to match any of the supported [filter criteria](#filter_criteria). `
     describe shadow.where(user: 'root') do
       its ('count') { should eq 1 }
     end
-
+    
     # Method form, with a regex
     # Select all users whose names begin with smb
     describe shadow.where(user: /^smb/) do
       its ('count') { should eq 2 }
     end
-
+    
     # Block form
     # Select users whose passwords have expired
     describe shadow.where { expiry_date > 0 } do
@@ -190,7 +200,7 @@ The encrypted password strings, or an account status string. Each string may not
       its('users') { should include 'nobody' }
     end
 
-### last_change
+### last\_change
 
 An integer reflecting the number of days since Jan 1 1970 since the user's password was changed.
 
@@ -199,7 +209,7 @@ An integer reflecting the number of days since Jan 1 1970 since the user's passw
       its('users') { should be_empty }
     end
 
-### min_days
+### min\_days
 
 An integer reflecting the minimum number of days a user is required to wait before
 changing their password again.
@@ -209,7 +219,7 @@ changing their password again.
       its('users') { should be_empty }
     end
 
-### max_days
+### max\_days
 
 An integer reflecting the maximum number of days a user may go without changing their password.
 
@@ -218,7 +228,7 @@ An integer reflecting the maximum number of days a user may go without changing 
       its('users') { should be_empty }
     end
 
-### warn_days
+### warn\_days
 
 An integer reflecting the number of days before a password expiration that a user recieves an alert.
 
@@ -227,7 +237,7 @@ An integer reflecting the number of days before a password expiration that a use
       its('users') { should be_empty }
     end
 
-### inactive_days
+### inactive\_days
 
 An integer reflecting the number of days that must pass before a user who has not logged in will be disabled.
 
@@ -236,7 +246,7 @@ An integer reflecting the number of days that must pass before a user who has no
       its('users') { should be_empty }
     end
 
-### expiry_date
+### expiry\_date
 
 An integer reflecting the number of days since Jan 1, 1970 on which the user was disabled. The `expiry_date` criterion is `nil` for enabled users.
 
@@ -244,7 +254,7 @@ An integer reflecting the number of days since Jan 1, 1970 on which the user was
     describe shadow.where { !expiry_date.nil? } do
       its('users') { should be_empty }
     end
-
+    
     # Ensure no one is disabled for more than 14 days
     describe shadow.where { !expiry_date.nil? && expiry_date - Date.new(1970,1,1) > 14} do
       its('users') { should be_empty }

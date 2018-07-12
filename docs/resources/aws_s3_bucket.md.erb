@@ -21,6 +21,16 @@ In particular, users of the `be_public` matcher should carefully examine the con
 
 <br>
 
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v2.0.16 of InSpec.
+
 ## Syntax
 
 An `aws_s3_bucket` resource block declares a bucket by name, and then lists tests to be performed.
@@ -29,7 +39,7 @@ An `aws_s3_bucket` resource block declares a bucket by name, and then lists test
       it { should exist }
       it { should_not be_public }
     end
-
+    
     describe aws_s3_bucket('test_bucket') do
       it { should exist }
     end
@@ -58,6 +68,7 @@ The following examples show how to use this InSpec audit resource.
     describe aws_s3_bucket('test_bucket') do
       it { should_not be_public }
     end
+
 <br>
 
 ## Properties
@@ -77,16 +88,15 @@ The `region` property identifies the AWS Region in which the S3 bucket is locate
 
 The `bucket_acl` property is a low-level property that lists the individual Bucket ACL grants  in effect on the bucket.  Other higher-level properties, such as be\_public, are more concise and easier to use. You can use the `bucket_acl` property to investigate which grants are in effect, causing be\_public to fail.
 
-The value of bucket_acl is  an array of simple objects.  Each object has a `permission` property and a `grantee` property.  The `permission` property will be a string such as 'READ', 'WRITE' etc (See the [AWS documentation](https://docs.aws.amazon.com/sdkforruby/api/Aws/S3/Client.html#get_bucket_acl-instance_method) for a full list).  The `grantee` property contains sub-properties, such as `type` and `uri`.
-
+The value of bucket\_acl is  an array of simple objects.  Each object has a `permission` property and a `grantee` property.  The `permission` property will be a string such as 'READ', 'WRITE' etc (See the [AWS documentation](https://docs.aws.amazon.com/sdkforruby/api/Aws/S3/Client.html#get_bucket_acl-instance_method) for a full list).  The `grantee` property contains sub-properties, such as `type` and `uri`.
 
     bucket_acl = aws_s3_bucket('my-bucket')
-
+    
     # Look for grants to "AllUsers" (that is, the public)
     all_users_grants = bucket_acl.select do |g|
       g.grantee.type == 'Group' && g.grantee.uri =~ /AllUsers/
     end
-
+    
     # Look for grants to "AuthenticatedUsers" (that is, any authenticated AWS user - nearly public)
     auth_grants = bucket_acl.select do |g|
       g.grantee.type == 'Group' && g.grantee.uri =~ /AuthenticatedUsers/
@@ -101,7 +111,7 @@ The `bucket_policy` property returns an array of simple objects, each object bei
 If there is no bucket policy, this property returns an empty array.
 
     bucket_policy = aws_s3_bucket('my-bucket')
-
+    
     # Look for statements that allow the general public to do things
     # This may be a false positive; it is possible these statements
     # could be protected by conditions, such as IP restrictions.
@@ -119,9 +129,9 @@ This InSpec audit resource has the following special matchers. For a full list o
 
 The `be_public` matcher tests if the bucket has potentially insecure access controls. This high-level matcher detects several insecure conditions, which may be enhanced in the future. Currently, the matcher reports an insecure bucket if any of the following conditions are met:
 
-  1. A bucket ACL grant exists for the 'AllUsers' group
-  2. A bucket ACL grant exists for the 'AuthenticatedUsers' group
-  3. A bucket policy has an effect 'Allow' and principal '*'
+1.  A bucket ACL grant exists for the 'AllUsers' group
+2.  A bucket ACL grant exists for the 'AuthenticatedUsers' group
+3.  A bucket policy has an effect 'Allow' and principal '\*'
 
 Note: This resource does not detect insecure object ACLs.
 

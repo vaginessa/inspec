@@ -3,11 +3,21 @@ title: About the kernel_parameter Resource
 platform: linux
 ---
 
-# kernel_parameter
+# kernel\_parameter
 
 Use the `kernel_parameter` InSpec audit resource to test kernel parameters on Linux platforms.
- These parameters are located under `/proc/cmdline`.
+These parameters are located under `/proc/cmdline`.
 <br>
+
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v1.0.0 of InSpec.
 
 ## Syntax
 
@@ -19,8 +29,8 @@ A `kernel_parameter` resource block declares a parameter and then a value to be 
 
 where
 
-* `'kernel.parameter'` must specify a kernel parameter, such as `'net.ipv4.conf.all.forwarding'`
-* `{ should eq 0 }` states the value to be tested
+  - `'kernel.parameter'` must specify a kernel parameter, such as `'net.ipv4.conf.all.forwarding'`
+  - `{ should eq 0 }` states the value to be tested
 
 <br>
 

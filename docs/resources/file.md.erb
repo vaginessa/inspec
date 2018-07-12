@@ -9,6 +9,16 @@ Use the `file` InSpec audit resource to test all system file types, including fi
 
 <br>
 
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v1.0.0 of InSpec.
+
 ## Syntax
 
 A `file` resource block declares the location of the file type to be tested, the expected file type  (if required), and one (or more) resource properties.
@@ -19,9 +29,9 @@ A `file` resource block declares the location of the file type to be tested, the
 
 where
 
-* `('path')` is the name of the file and/or the path to the file.
-* `PROPERTY` is a valid resource property for this resource'
-* `'value'` is the value to be tested.
+  - `('path')` is the name of the file and/or the path to the file.
+  - `PROPERTY` is a valid resource property for this resource'
+  - `'value'` is the value to be tested.
 
 <br>
 
@@ -33,7 +43,7 @@ content, size, basename, path, owner, group, type
 
 ### Unix/Linux Properties
 
-symlink, mode, link_path, shallow_link_path, mtime, size, selinux\_label, md5sum, sha256sum, path, source, source\_path, uid, gid
+symlink, mode, link\_path, shallow\_link\_path, mtime, size, selinux\_label, md5sum, sha256sum, path, source, source\_path, uid, gid
 
 ### Windows Properties
 
@@ -57,7 +67,7 @@ The following complete example tests the `pg_hba.conf` file in PostgreSQL for MD
       its('content') { should match(%r{host\s.*?all\s.*?all\s.*?::1\/128\s.*?md5}) }
     end
 
-### file_version
+### file\_version
 
 The `file_version` property tests if a Windows file's version matches the specified value. The difference between a file's "file version" and "product version" is that the file version is the version number of the file itself, whereas the product version is the version number associated with the application from which that file originates:
 
@@ -71,16 +81,16 @@ The `group` property tests if the group to which a file belongs matches the spec
 
 The following examples show how to use this InSpec audit resource.
 
-### link_path
+### link\_path
 
 The `link_path` property tests if the file exists at the specified path. If the file is a symlink,
 InSpec will resolve the symlink recursively and return the ultimate linked file.
 
     its('link_path') { should eq '/some/path/to/file' }
 
-### shallow_link_path
+### shallow\_link\_path
 
-The `shallow_link_path`` property returns the path that the file refers to, only resolving
+The \`shallow\_link\_path\`\` property returns the path that the file refers to, only resolving
 it once (that is, it performs a readlink operation). If the file is not a symlink, nil is returned.
 
     its('shallow_link_path') { should eq '/some/path/to/file' }
@@ -107,7 +117,7 @@ not
 
     { should cmp '644' }
 
-Without the zero prefix for the octal value, InSpec will interpret it as the _decimal_ value 644, which is octal 1024 or `-----w-r-T`, and any test for a file that is `-rw-r--r--` will fail.
+Without the zero prefix for the octal value, InSpec will interpret it as the *decimal* value 644, which is octal 1024 or `-----w-r-T`, and any test for a file that is `-rw-r--r--` will fail.
 
 ### mtime
 
@@ -124,13 +134,13 @@ The `owner` property tests if the owner of the file matches the specified value.
 
     its('owner') { should eq 'root' }
 
-### product_version
+### product\_version
 
 The `product_version` property tests if a Windows file's product version matches the specified value. The difference between a file's "file version" and "product version" is that the file version is the version number of the file itself, whereas the product version is the version number associated with the application from which that file originates.
 
     its('product_version') { should eq '2.3.4' }
 
-### selinux_label
+### selinux\_label
 
 The `selinux_label` property tests if the SELinux label for a file matches the specified value.
 
@@ -160,14 +170,14 @@ Less than:
 
 The `type` property tests for the file type. The available types are:
 
-* `file`: the object is a file
-* `directory`: the object is a directory
-* `link`: the object is a symbolic link
-* `pipe`: the object is a named pipe
-* `socket`: the object is a socket
-* `character_device`: the object is a character device
-* `block_device`: the object is a block device
-* `door`: the object is a door device
+  - `file`: the object is a file
+  - `directory`: the object is a directory
+  - `link`: the object is a symbolic link
+  - `pipe`: the object is a named pipe
+  - `socket`: the object is a socket
+  - `character_device`: the object is a character device
+  - `block_device`: the object is a block device
+  - `door`: the object is a door device
 
 The `type` method usually returns the type as a Ruby "symbol". We recommend using the `cmp` matcher to match
 either by symbol or string.
@@ -282,14 +292,13 @@ or:
       its('size') { should be 0 }
     end
 
-
 ### Test an MD5 checksum
 
     require 'digest'
     cpuinfo = file('/proc/cpuinfo').content
-
+    
     md5sum = Digest::MD5.hexdigest(cpuinfo)
-
+    
     describe file('/proc/cpuinfo') do
       its('md5sum') { should eq md5sum }
     end
@@ -298,9 +307,9 @@ or:
 
     require 'digest'
     cpuinfo = file('/proc/cpuinfo').content
-
+    
     sha256sum = Digest::SHA256.hexdigest(cpuinfo)
-
+    
     describe file('/proc/cpuinfo') do
       its('sha256sum') { should eq sha256sum }
     end
@@ -312,11 +321,11 @@ The following example shows how to use the `file` audit resource to verify if th
     describe file('/etc/ntp.conf') do
        it { should be_file }
     end
-
+    
     describe file('/etc/ntp.leapseconds') do
       it { should be_file }
     end
-
+    
     describe command('pgrep ntp') do
        its('exit_status') { should eq 0 }
     end
@@ -334,7 +343,7 @@ For example, for the following symlink:
     describe file('/dev/virtio-ports/com.redhat.rhevm.vdsm') do
       it { should be_symlink }
     end
-
+    
     virito_port_vdsm = file('/dev/virtio-ports/com.redhat.rhevm.vdsm').link_path
     describe file(virito_port_vdsm) do
       it { should exist }
@@ -375,13 +384,13 @@ The `be_character_device` matcher tests if the file exists as a character device
 
     it { should be_character_device }
 
-### be_directory
+### be\_directory
 
 The `be_directory` matcher tests if the file exists as a directory, such as `/etc/passwd`, `/etc/shadow`, or `/var/log/httpd`:
 
     it { should be_directory }
 
-### be_executable
+### be\_executable
 
 The `be_executable` matcher tests if the file exists as an executable:
 
@@ -403,7 +412,7 @@ a user:
 
     it { should be_executable.by_user('user') }
 
-### be_file
+### be\_file
 
 The `be_file` matcher tests if the file exists as a file. This can be useful with configuration files like `/etc/passwd` where there typically is not an associated file extension---`passwd.txt`:
 
@@ -415,7 +424,7 @@ The `be_grouped_into` matcher tests if the file exists as part of the named grou
 
     it { should be_grouped_into 'group' }
 
-### be_immutable
+### be\_immutable
 
 The `be_immutable` matcher tests if the file is immutable, i.e. "cannot be changed":
 
@@ -427,20 +436,19 @@ The `be_linked_to` matcher tests if the file is linked to the named target:
 
     it { should be_linked_to '/etc/target-file' }
 
-
 ### be\_owned\_by
 
 The `be_owned_by` matcher tests if the file is owned by the named user, such as `root`:
 
     it { should be_owned_by 'root' }
 
-### be_pipe
+### be\_pipe
 
 The `be_pipe` matcher tests if the file exists as first-in, first-out special file (`.fifo`) that is typically used to define a named pipe, such as `/var/log/nginx/access.log.fifo`:
 
     it { should be_pipe }
 
-### be_readable
+### be\_readable
 
 The `be_readable` matcher tests if the file is readable:
 
@@ -462,43 +470,43 @@ a user:
 
     it { should be_readable.by_user('user') }
 
-### be_setgid
+### be\_setgid
 
 The `be_setgid` matcher tests if the 'setgid' permission is set on the file or directory.  On executable files, this causes the process to be started owned by the group that owns the file, rather than the primary group of the invocating user.  This can result in escalation of privilege.  On Linux, when setgid is set on directories, setgid causes newly created files and directories to be owned by the group that owns the setgid parent directory; additionally, newly created subdirectories will have the setgid bit set.  To use this matcher:
 
     it { should be_setgid }
 
-### be_socket
+### be\_socket
 
 The `be_socket` matcher tests if the file exists as socket (`.sock`), such as `/var/run/php-fpm.sock`:
 
     it { should be_socket }
 
-### be_sticky
+### be\_sticky
 
 The `be_sticky` matcher tests if the 'sticky bit' permission is set on the directory.  On directories, this restricts file deletion to the owner of the file, even if the permission of the parent directory would normally permit deletion by others.  This is commonly used on /tmp filesystems.  To use this matcher:
 
     it { should be_sticky }
 
-### be_setuid
+### be\_setuid
 
 The `be_setuid` matcher tests if the 'setuid' permission is set on the file.  On executable files, this causes the process to be started owned by the user that owns the file, rather than invocating user.  This can result in escalation of privilege.  To use this matcher:
 
     it { should be_setuid }
 
-### be_symlink
+### be\_symlink
 
 The `be_symlink` matcher tests if the file exists as a symbolic, or soft link that contains an absolute or relative path reference to another file:
 
     it { should be_symlink }
 
-### be_version
+### be\_version
 
 The `be_version` matcher tests the version of the file:
 
     it { should be_version '1.2.3' }
 
-### be_writable
+### be\_writable
 
 The `be_writable` matcher tests if the file is writable:
 
@@ -526,7 +534,7 @@ The `exist` matcher tests if the named file exists:
 
     it { should exist }
 
-### have_mode
+### have\_mode
 
 The `have_mode` matcher tests if a file has a mode assigned to it:
 

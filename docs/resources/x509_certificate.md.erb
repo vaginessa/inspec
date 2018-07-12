@@ -3,7 +3,7 @@ title: The x509_certificate Resource
 platform: os
 ---
 
-# x509_certificate
+# x509\_certificate
 
 Use the `x509_certificate` InSpec audit resource to test the fields and validity of an x.509 certificate.
 
@@ -14,6 +14,16 @@ Examples include SSL certificates, S/MIME certificates and VPN authentication
 certificates.
 
 <br>
+
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v1.18.0 of InSpec.
 
 ## Syntax
 
@@ -35,7 +45,7 @@ An `x509_certificate` resource block declares a certificate `key file` to be tes
       its('subject.CN') { should eq "www.mywebsite.com" }
     end
 
-### subject_dn (String)
+### subject\_dn (String)
 
 The `subject_dn` string returns the distinguished name of the subject field. It contains several fields separated by forward slashes. The field identifiers are the same ones used by OpenSSL to generate CSR's and certs. Use `subject.XX` instead to access the parsed version.
 
@@ -53,7 +63,7 @@ e.g. `/C=US/L=Seattle/O=Chef Software Inc/OU=Chefs/CN=Richard Nixon`
       its('issuer.CN') { should eq "Acme Trust CA" }
     end
 
-### issuer_dn (String)
+### issuer\_dn (String)
 
 The `issuer_dn` is the distinguished name from a CA (certificate authority) during the
 certificate signing process. It describes which authority is guaranteeing the
@@ -65,7 +75,7 @@ e.g. `/C=US/L=Seattle/CN=Acme Trust CA/emailAddress=support@acmetrust.org`
       its('issuer_cn') { should match "CN=Acme Trust CA" }
     end
 
-### public_key (String)
+### public\_key (String)
 
 The `public_key` property returns a base64 encoded public key in PEM format.
 
@@ -73,7 +83,7 @@ The `public_key` property returns a base64 encoded public key in PEM format.
       its('public_key') { should match "-----BEGIN PUBLIC KEY-----\nblah blah blah..." }
     end
 
-### key_length (Integer)
+### key\_length (Integer)
 
 The `key_length` property calculates the number of bits in the public key.
 More bits increase security, but at the cost of speed and in extreme cases, compatibility.
@@ -82,7 +92,7 @@ More bits increase security, but at the cost of speed and in extreme cases, comp
       its('key_length') { should be 2048 }
     end
 
-### signature_algorithm (String)
+### signature\_algorithm (String)
 
 The `signature_algorithm` property describes which hash function was used by the CA to
 sign the certificate.
@@ -90,7 +100,6 @@ sign the certificate.
     describe x509_certificate('/etc/pki/www.mywebsite.com.pem') do
       its('signature_algorithm') { should be 'sha256WithRSAEncryption' }
     end
-
 
 ### validity\_in\_days (Float)
 
@@ -136,16 +145,16 @@ The `extensions` hash property is mainly used to determine what the certificate 
       its('extensions') { should include 'keyUsage' }
       its('extensions') { should include 'extendedKeyUsage' }
       its('extensions') { should include 'subjectAltName' }
-
+    
       # Check examples of basic 'keyUsage'
       its('extensions.keyUsage') { should include 'Digital Signature' }
       its('extensions.keyUsage') { should include 'Non Repudiation' }
       its('extensions.keyUsage') { should include 'Data Encipherment' }
-
+    
       # Check examples of newer 'extendedKeyUsage'
       its('extensions.extendedKeyUsage') { should include 'TLS Web Server Authentication' }
       its('extensions.extendedKeyUsage') { should include 'Code Signing' }
-
+    
       # Check examples of 'subjectAltName'
       its('extensions.subjectAltName') { should include 'email:support@chef.io' }
     end

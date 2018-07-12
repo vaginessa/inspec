@@ -13,6 +13,16 @@ Separating IP addresses allows for protection if there is a failure in one avail
 
 <br>
 
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v2.0.16 of InSpec.
+
 ## Syntax
 
 An `aws_subnets` resource block uses an optional filter to select a group of subnets and then tests that group.
@@ -35,7 +45,7 @@ As this is the initial release of `aws_subnets`, its limited functionality precl
 
 ## Filter Criteria
 
-* `vpc_id`, `subnet_id`
+  - `vpc_id`, `subnet_id`
 
 ## Filter Examples
 
@@ -62,7 +72,7 @@ A string identifying a specific subnet.
 
 ## Properties
 
-* `cidr_blocks`,  `states`, `subnet_ids`,`vpc_ids`
+  - `cidr_blocks`,  `states`, `subnet_ids`,`vpc_ids`
 
 <br>
 
@@ -98,7 +108,7 @@ Provides an array of strings containing the subnet IDs associated with a vpc.
 
 ### vpc\_ids
 
-Provides an array containing a string of the vpc_id associated with a subnet.
+Provides an array containing a string of the vpc\_id associated with a subnet.
 
     # Examine a specific subnets VPC IDS
     describe aws_subnets.where( subnet_id: 'subnet-12345678') do
@@ -119,7 +129,7 @@ The control will pass if the filter returns at least one result. Use `should_not
     describe aws_subnets
       it { should exist }
     end
-
+    
     # Test that there are subnets in a vpc
     describe aws_subnets.where(vpc_id: 'vpc-12345678')
       it { should exist }

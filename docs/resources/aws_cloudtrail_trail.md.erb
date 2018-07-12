@@ -13,6 +13,16 @@ Each AWS Cloudtrail Trail is uniquely identified by its `trail_name` or `trail_a
 
 <br>
 
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v2.0.16 of InSpec.
+
 ## Syntax
 
 An `aws_cloudtrail_trail` resource block identifies a trail by `trail_name`.
@@ -21,7 +31,7 @@ An `aws_cloudtrail_trail` resource block identifies a trail by `trail_name`.
     describe aws_cloudtrail_trail('trail-name') do
       it { should exist }
     end
-
+    
     # Hash syntax for trail name
     describe aws_cloudtrail_trail(trail_name: 'trail-name') do
       it { should exist }
@@ -55,7 +65,7 @@ The following examples show how to use this InSpec audit resource.
 
 ## Properties
 
-* `s3_bucket_name`, `trail_arn`, `cloud_watch_logs_role_arn`, `cloud_watch_logs_log_group_arn`, `kms_key_id`, `home_region`,
+  - `s3_bucket_name`, `trail_arn`, `cloud_watch_logs_role_arn`, `cloud_watch_logs_log_group_arn`, `kms_key_id`, `home_region`,
 
 <br>
 
@@ -79,7 +89,7 @@ The ARN identifier of the specified trail. An ARN uniquely identifies the trail 
 
 ### cloud\_watch\_logs\_role\_arn
 
-Specifies the role for the CloudWatch Logs endpoint to assume to write to a user\'s log group.
+Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group.
 
     describe aws_cloudtrail_trail('trail-name') do
       its('cloud_watch_logs_role_arn') { should include "arn:aws:iam:::role/CloudTrail_CloudWatchLogs_Role" }

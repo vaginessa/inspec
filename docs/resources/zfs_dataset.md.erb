@@ -3,11 +3,21 @@ title: About the zfs_dataset Resource
 platform: linux
 ---
 
-# zfs_dataset
+# zfs\_dataset
 
 Use the `zfs_dataset` InSpec audit resource to test the ZFS datasets on FreeBSD systems.
 
 <br>
+
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v1.16.0 of InSpec.
 
 ## Syntax
 
@@ -19,9 +29,9 @@ A `zfs_dataset` resource block declares the ZFS dataset properties that should b
 
 where
 
-* `('dataset')` is the name of the ZFS dataset (eg: `'tank/tmp'`)
-* `MATCHER` is a valid matcher for this resource
-* `'value'` is the value to be tested
+  - `('dataset')` is the name of the ZFS dataset (eg: `'tank/tmp'`)
+  - `MATCHER` is a valid matcher for this resource
+  - `'value'` is the value to be tested
 
 <br>
 
@@ -46,7 +56,7 @@ The following examples show how to use this InSpec audit resource.
 
 This InSpec audit resource has the matchers listed below, in addition to dynamically exposing all ZFS dataset properties available (see: `man zfs` for the list of supported properties). For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
-### be_mounted
+### be\_mounted
 
 The `be_mounted` matcher tests if the dataset is accessible from the file system:
 

@@ -9,6 +9,16 @@ Use the `aws_iam_access_key` InSpec audit resource to test properties of a singl
 
 <br>
 
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v2.0.16 of InSpec.
+
 ## Syntax
 
 An `aws_iam_access_key` resource block declares the tests for a single AWS IAM access key. An access key is uniquely identified by its access key id.
@@ -20,12 +30,11 @@ An `aws_iam_access_key` resource block declares the tests for a single AWS IAM a
       its('create_date') { should be > Time.now - 365 * 86400 }
       its('last_used_date') { should be > Time.now - 90 * 86400 }
     end
-
+    
     # id is an alias for access_key_id
     describe aws_iam_access_key(id: 'AKIA12345678ABCD') do
       # Same
     end
-
 
 Access keys are associated with IAM users, who may have zero, one or two access keys. You may also lookup an access key by username. If the user has more than one access key, an error occurs (You may use `aws_iam_access_keys` with the `username` resource parameter to access a user's keys when they have multiple keys.)
 
@@ -70,7 +79,7 @@ The following examples show how to use this InSpec audit resource.
 
 ## Properties
 
-* `access_key_id`, `create_date`, `last_used_date`, `username`
+  - `access_key_id`, `create_date`, `last_used_date`, `username`
 
 <br>
 
@@ -95,7 +104,7 @@ The date and time, as a Ruby DateTime, at which the access key was created.
 
 ### last\_used\_date
 
-The date and time, as a Ruby DateTime, at which the access key was last_used.
+The date and time, as a Ruby DateTime, at which the access key was last\_used.
 
     # Has the access key been used in the last year?
     describe aws_iam_access_key(username: 'bob')

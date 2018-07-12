@@ -11,6 +11,16 @@ To audit a specific ELB in detail when its name is known, use `aws_elb` (singula
 
 <br>
 
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v2.2.10 of InSpec.
+
 ## Syntax
 
 An `aws_elb` resource block uses an optional filter to select a group of ELBs and then tests that group.
@@ -19,7 +29,7 @@ An `aws_elb` resource block uses an optional filter to select a group of ELBs an
     describe aws_elbs do
       it { should exist }
     end
-
+    
     # Ensure that you have at least one ELB in a specific VPC
     describe aws_elb.where(vpc_id: 'vpc-12345678') do
       it { should exist }
@@ -75,7 +85,6 @@ An array of strings reflecting the instance IDs of the EC2 instances attached to
     describe aws_elbs.where { instance_ids.count > 2 } do
       it { should exist }
     end
-
 
 ### internal\_ports
 
@@ -146,7 +155,7 @@ An array of FQDNs of the selected load balancers.  These are the hostnames which
 
 ### elb\_names
 
-The names of the selected ELBs within AWS. The ELB name is unique within the region. 
+The names of the selected ELBs within AWS. The ELB name is unique within the region.
 
     # You can use this to enumerate the ELBs for detailed tests
     # Search using the plural, analyze using the singular.
@@ -166,7 +175,6 @@ An array of integers reflecting the public-facing ports on which the selected lo
       its('external_ports') { should include 443 }
       its('external_ports.count') { should cmp 2 }      
     end
-
 
 ### instance\_ids
 
@@ -229,7 +237,7 @@ The audit test will pass if at least one ELB was matched by the filter.  Use wit
     describe aws_elbs.where(dns_name: /z/) do
       it { should exist }
     end
-
+    
     # But k's are just awful
     describe aws_elbs.where(dns_name: /k/) do
       it { should_not exist }

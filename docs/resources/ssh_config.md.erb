@@ -3,11 +3,21 @@ title: About the ssh_config Resource
 platform: linux
 ---
 
-# ssh_config
+# ssh\_config
 
 Use the `ssh_config` InSpec audit resource to test OpenSSH client configuration data located at `/etc/ssh/ssh_config` on Linux and Unix platforms.
 
 <br>
+
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v1.0.0 of InSpec.
 
 ## Syntax
 
@@ -19,9 +29,9 @@ An `ssh_config` resource block declares the client OpenSSH configuration data to
 
 where
 
-* `name` is a configuration setting in `ssh_config`
-* `('path')` is the non-default `/path/to/ssh_config`
-* `{ should include('foo') }` tests the value of `name` as read from `ssh_config` versus the value declared in the test
+  - `name` is a configuration setting in `ssh_config`
+  - `('path')` is the non-default `/path/to/ssh_config`
+  - `{ should include('foo') }` tests the value of `name` as read from `ssh_config` versus the value declared in the test
 
 <br>
 
@@ -42,7 +52,7 @@ The following examples show how to use this InSpec audit resource.
     only_if do
       command('sshd').exist? or command('ssh').exists?
     end
-
+    
     describe ssh_config do
       its('SendEnv') { should include('GORDON_CLIENT') }
     end

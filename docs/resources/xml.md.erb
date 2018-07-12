@@ -9,6 +9,16 @@ Use the `xml` InSpec audit resource to test data in an XML file.
 
 <br>
 
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v1.37.6 of InSpec.
+
 ## Syntax
 
 An `xml` resource block declares the data to be tested. Assume the following XML file:
@@ -46,8 +56,8 @@ This file can be queried for attributes using:
 
 where
 
-* `root/name` and `root/array[2]/element/@value` is an XPath expression
-* `should eq ['foo']` tests a value of `root/name` as read from an XML file versus the value declared in the test
+  - `root/name` and `root/array[2]/element/@value` is an XPath expression
+  - `should eq ['foo']` tests a value of `root/name` as read from an XML file versus the value declared in the test
 
 In the above example, you see the use of `@` and `attribute::` which are both methods of fetching attributes.
 
@@ -67,7 +77,7 @@ The following examples show how to use this InSpec audit resource.
       # using the alternate syntax as described above because of the . in the key name
       its(['configuration/system.applicationHost/applicationPools/add@name']) { should contain('my_pool') }
     end
-
+    
     describe xml('applicationHost.sites') do
       its('site[@name="Default Web Site"]/application/virtualDirectory/@path') { should eq ['/'] }
     end

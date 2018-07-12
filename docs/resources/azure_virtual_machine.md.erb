@@ -7,6 +7,16 @@ platform: azure
 
 Use the `azure_virtual_machine` InSpec audit resource to ensure that a Virtual Machine has been provisioned correctly.
 
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v2.0.16 of InSpec.
+
 ## Syntax
 
 The name of the machine and the resource group are required as properties to the resource.
@@ -17,10 +27,10 @@ The name of the machine and the resource group are required as properties to the
 
 where
 
-* `MyVm` is the name of the virtual machine as seen in Azure; it is **not** the hostname of the machine
-* `MyResourceGroup` is the name of the machine's resource group
-* `property` is one of the resource properties
-* `value` is the expected output from the matcher
+  - `MyVm` is the name of the virtual machine as seen in Azure; it is **not** the hostname of the machine
+  - `MyResourceGroup` is the name of the machine's resource group
+  - `property` is one of the resource properties
+  - `value` is the expected output from the matcher
 
 ## Examples
 
@@ -36,13 +46,13 @@ The following examples show to use this InSpec audit resource.
 
 ## Parameters
 
-* `group_name`, `name`, `apiversion`
+  - `group_name`, `name`, `apiversion`
 
 ## Parameter Examples
 
 The options that can be passed to the resource are as follows.
 
-### group_name (required)
+### group\_name (required)
 
 Use this parameter to define the Azure Resource Group to be tested.
 
@@ -68,9 +78,9 @@ The API Version to use when querying the resource. Defaults to the latest versio
 
 These options can also be set using the environment variables:
 
-* `AZURE_RESOURCE_GROUP_NAME`
-* `AZURE_RESOURCE_NAME`
-* `AZURE_RESOURCE_API_VERSION`
+  - `AZURE_RESOURCE_GROUP_NAME`
+  - `AZURE_RESOURCE_NAME`
+  - `AZURE_RESOURCE_API_VERSION`
 
 When the options have been set as well as the environment variables, the environment variables take priority.
 
@@ -78,7 +88,7 @@ When the options have been set as well as the environment variables, the environ
 
 ## Properties
 
-* `type`, `location`, `name`, `publisher`, `offer`, `sku`, `os_type`, `os_disk_name`, `have_managed_osdisk`, `caching`, `create_option`, `disk_size_gb`, `have_data_disks`, `data_disk_count`  , `storage_account_type`, `vm_size`, `computer_name`, `admin_username`, `have_nics`, `nic_count`, `connected_nics`, `have_password_authentication`, `password_authentication?`, `have_custom_data`, `custom_data?`, `have_ssh_keys`, `ssh_keys?`, `ssh_key_count`, `ssh_keys`, `have_boot_diagnostics`, `boot_diagnostics_storage_uri`
+  - `type`, `location`, `name`, `publisher`, `offer`, `sku`, `os_type`, `os_disk_name`, `have_managed_osdisk`, `caching`, `create_option`, `disk_size_gb`, `have_data_disks`, `data_disk_count`  , `storage_account_type`, `vm_size`, `computer_name`, `admin_username`, `have_nics`, `nic_count`, `connected_nics`, `have_password_authentication`, `password_authentication?`, `have_custom_data`, `custom_data?`, `have_ssh_keys`, `ssh_keys?`, `ssh_key_count`, `ssh_keys`, `have_boot_diagnostics`, `boot_diagnostics_storage_uri`
 
 <br>
 
@@ -108,7 +118,7 @@ Name of the Virtual Machine in Azure. Be aware that this is not the computer nam
 
 The publisher of this machine's build image.
 
- `nil` if the machine was created from a custom image.
+`nil` if the machine was created from a custom image.
 
     its('publisher') { should cmp 'MicrosoftWindowsServer' }
 
@@ -132,7 +142,9 @@ The item from the publisher that was used to create the image.
 
 Test that returns the classification in Azure of the operating system type. Usually either `Linux` or `Windows`.
 
-        its('os_type') { should cmp 'Windows' }
+``` 
+    its('os_type') { should cmp 'Windows' }
+```
 
 ### os\_disk\_name
 
@@ -176,7 +188,7 @@ The size of the machine in Azure
 
 ### computer\_name
 
-The name of the machine. This is what was assigned to the machine during deployment and is what _should_ be returned by the `hostname` command.
+The name of the machine. This is what was assigned to the machine during deployment and is what *should* be returned by the `hostname` command.
 
     its('computer_name') { should cmp 'win-internal-1' }
 
@@ -224,7 +236,7 @@ Boolean to state of the machine is accessible using SSH keys
 
     its('ssh_keys?') { should be true }
 
-### ssh\_key\_count
+\#\#\# ssh\_key\_count
 
 Returns how many SSH keys have been applied to the machine.
 
@@ -332,7 +344,7 @@ To get the value of the tag, a number of tests have been created from the tags t
 
 For example, if the following tag is set on a resource:
 
-* owner: J.G. Jingleheimerschmidt
+  - owner: J.G. Jingleheimerschmidt
 
 Then a test is available called `Owner_tag`.
 
@@ -342,6 +354,6 @@ Note: The tag name is case sensitive which makes the test case sensitive. E.g. `
 
 ## References
 
-* [Azure Ruby SDK - Resources](https://github.com/Azure/azure-sdk-for-ruby/tree/master/management/azure_mgmt_resources)
-* [Virtual Machine External VM](https://github.com/chef/inspec/blob/fc990346f2438690f0ac36a9f6606e61574a79b8/test/azure/verify/controls/virtual_machine_external_vm.rb)
-* [Virtual Machine Internal VM](https://github.com/chef/inspec/blob/fc990346f2438690f0ac36a9f6606e61574a79b8/test/azure/verify/controls/virtual_machine_internal_vm.rb)
+  - [Azure Ruby SDK - Resources](https://github.com/Azure/azure-sdk-for-ruby/tree/master/management/azure_mgmt_resources)
+  - [Virtual Machine External VM](https://github.com/chef/inspec/blob/fc990346f2438690f0ac36a9f6606e61574a79b8/test/azure/verify/controls/virtual_machine_external_vm.rb)
+  - [Virtual Machine Internal VM](https://github.com/chef/inspec/blob/fc990346f2438690f0ac36a9f6606e61574a79b8/test/azure/verify/controls/virtual_machine_internal_vm.rb)

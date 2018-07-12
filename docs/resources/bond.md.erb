@@ -9,6 +9,16 @@ Use the `bond` InSpec audit resource to test a logical, bonded network interface
 
 <br>
 
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v1.0.0 of InSpec.
+
 ## Syntax
 
 A `bond` resource block declares a bonded network interface, and then specifies the properties of that bonded network interface to be tested:
@@ -19,8 +29,8 @@ A `bond` resource block declares a bonded network interface, and then specifies 
 
 where
 
-* `'name'` is the name of the bonded network interface
-* `{ should exist }` is a valid matcher for this resource
+  - `'name'` is the name of the bonded network interface
+  - `{ should exist }` is a valid matcher for this resource
 
 <br>
 
@@ -82,9 +92,8 @@ The `exist` matcher tests if the bonded network interface is available:
 
     it { should exist }
 
-### have_interface
+### have\_interface
 
 The `have_interface` matcher tests if the bonded network interface has one (or more) secondary interfaces:
 
     it { should have_interface }
-

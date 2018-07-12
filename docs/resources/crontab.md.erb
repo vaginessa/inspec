@@ -9,6 +9,16 @@ Use the `crontab` InSpec audit resource to test the crontab entries for a partic
 
 <br>
 
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v1.15.0 of InSpec.
+
 ## Syntax
 
 A `crontab` resource block declares a user (which defaults to the current user, if not specified), and then the details to be tested, such as the schedule elements for each crontab entry or the commands itself:
@@ -38,7 +48,7 @@ The following examples show how to use this InSpec audit resource.
 
 ### Test that the logged-in user's crontab has no tasks set to run on every hour and every minute
 
-```ruby
+``` ruby
 describe crontab.where({'hour' => '*', 'minute' => '*'}) do
   its('entries.length') { should cmp '0' }
 end
@@ -46,13 +56,13 @@ end
 
 ### Test that the logged-in user's crontab contains a single command that matches a pattern
 
-```ruby
+``` ruby
 describe crontab.where { command =~ /a partial command string/ } do
   its('entries.length') { should cmp 1 }
 end
 ```
 
-### Test a special time string (i.e., @yearly /root/annual_report.sh)
+### Test a special time string (i.e., @yearly /root/annual\_report.sh)
 
     describe crontab.commands('/root/annual_report.sh') do
       its('hours') { should cmp '0' }
@@ -71,7 +81,6 @@ end
 <br>
 
 ## Property Examples
-
 
 ### Test a special time string
 

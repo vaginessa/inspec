@@ -9,6 +9,16 @@ Use the `powershell` InSpec audit resource to test a Powershell script on the Wi
 
 <br>
 
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v1.0.0 of InSpec.
+
 ## Syntax
 
 A `powershell` resource block declares a Powershell script to be tested, and then compares the output of that command to the matcher in the test:
@@ -16,16 +26,16 @@ A `powershell` resource block declares a Powershell script to be tested, and the
     script = <<-EOH
       # a PowerShell script
     EOH
-
+    
     describe powershell(script) do
       its('property') { should eq 'output' }
     end
 
 where
 
-* `'script'` must specify a Powershell script to be run
-* `'matcher'` is one of `exit_status`, `stderr`, or `stdout`
-* `'output'` tests the output of the command run on the system versus the output value stated in the test
+  - `'script'` must specify a Powershell script to be run
+  - `'matcher'` is one of `exit_status`, `stderr`, or `stdout`
+  - `'output'` tests the output of the command run on the system versus the output value stated in the test
 
 <br>
 
@@ -42,7 +52,7 @@ The following examples show how to use this InSpec audit resource.
       $groups = $user.GetRelated('Win32_Group') | Select-Object -Property Caption, Domain, Name, LocalAccount, SID, SIDType, Status
       $groups | ConvertTo-Json
     EOH
-
+    
     describe powershell(script) do
       its('stdout') { should_not eq '' }
     end
@@ -83,7 +93,7 @@ No newline:
 
 For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
-### exit_status
+### exit\_status
 
 The `exit_status` matcher tests the exit status for the command:
 

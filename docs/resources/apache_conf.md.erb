@@ -3,11 +3,21 @@ title: About the apache_conf Resource
 platform: linux
 ---
 
-# apache_conf
+# apache\_conf
 
 Use the `apache_conf` InSpec audit resource to test the configuration settings for Apache. This file is typically located under `/etc/apache2` on the Debian and Ubuntu platforms and under `/etc/httpd` on the Fedora, CentOS, RedHat Enterprise Linux, and ArchLinux platforms. The configuration settings may vary significantly from platform to platform.
 
 <br>
+
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v1.0.0 of InSpec.
 
 ## Syntax
 
@@ -19,9 +29,9 @@ An `apache_conf` InSpec audit resource block declares configuration settings tha
 
 where
 
-* `'setting_name'` is a configuration setting defined in the Apache configuration file
-* `('path')` is the non-default path to the Apache configuration file
-* `{ should eq 'value' }` is the value that is expected
+  - `'setting_name'` is a configuration setting defined in the Apache configuration file
+  - `('path')` is the non-default path to the Apache configuration file
+  - `{ should eq 'value' }` is the value that is expected
 
 <br>
 

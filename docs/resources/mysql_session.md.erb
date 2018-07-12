@@ -3,11 +3,21 @@ title: About the mysql_session Resource
 platform: os
 ---
 
-# mysql_session
+# mysql\_session
 
 Use the `mysql_session` InSpec audit resource to test SQL commands run against a MySQL database.
 
 <br>
+
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v1.0.0 of InSpec.
 
 ## Syntax
 
@@ -19,9 +29,9 @@ A `mysql_session` resource block declares the username and password to use for t
 
 where
 
-* `mysql_session` declares a username and password, connecting locally, with permission to run the query
-* `query('QUERY')` contains the query to be run
-* `its('stdout') { should eq(/expected-result/) }` compares the results of the query against the expected result in the test
+  - `mysql_session` declares a username and password, connecting locally, with permission to run the query
+  - `query('QUERY')` contains the query to be run
+  - `its('stdout') { should eq(/expected-result/) }` compares the results of the query against the expected result in the test
 
 <br>
 
@@ -32,7 +42,7 @@ The following examples show how to use this InSpec audit resource.
 ### Test for matching databases
 
     sql = mysql_session('my_user','password')
-
+    
     describe sql.query('show databases like \'test\';') do
       its('stdout') { should_not match(/test/) }
     end

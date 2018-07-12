@@ -3,11 +3,21 @@ title: About the docker_service Resource
 platform: linux
 ---
 
-# docker_service
+# docker\_service
 
 Use the `docker_service` InSpec audit resource to verify a docker swarm service.
 
 <br>
+
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v1.51.0 of InSpec.
 
 ## Syntax
 
@@ -110,5 +120,3 @@ For a full list of available matchers, please visit our [matchers page](https://
 The `exist` matcher tests if the image is available on the node:
 
     it { should exist }
-
-

@@ -9,6 +9,16 @@ Use the `etc_hosts_deny` InSpec audit resource to test rules for rejecting daemo
 
 <br>
 
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v1.39.1 of InSpec.
+
 ## Syntax
 
 An etc/hosts.deny rule specifies one or more daemons mapped to one or more clients, with zero or more options for rejecting traffic when found.
@@ -29,9 +39,9 @@ Use the optional constructor parameter to give an alternative path to hosts.deny
 
 where
 
-* `daemon` is a daemon that will be rejected to pass traffic in.
-* `client_list` is a list of clients will be rejected to pass traffic in.
-* `options` is a list of tasks that to be done with the rule when traffic is found.
+  - `daemon` is a daemon that will be rejected to pass traffic in.
+  - `client_list` is a list of clients will be rejected to pass traffic in.
+  - `options` is a list of tasks that to be done with the rule when traffic is found.
 
 <br>
 
@@ -51,7 +61,7 @@ where
       its('daemon') { should eq ['vsftpd', 'sshd'] }
     end
 
-### client_list
+### client\_list
 
 `client_list` returns a 2d string array where each entry contains the clients specified for the rule.
 

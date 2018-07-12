@@ -8,23 +8,34 @@ Use the `aws_route_tables` InSpec audit resource to test properties of all or a 
 
 <br>
 
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v2.1.30 of InSpec.
+
 ## Syntax
 
-  # Ensure that there is at least one route table
-  describe aws_route_tables do
-    it { should exist }
-  end
+# Ensure that there is at least one route table
+
+describe aws\_route\_tables do
+it { should exist }
+end
 
 ## Matchers
 
 ### exist
 
-Indicates that at least one Route Table was found.  Use should_not to test that no Route Tables should exist.
+Indicates that at least one Route Table was found.  Use should\_not to test that no Route Tables should exist.
 
     describe aws_route_tables do
       it { should exist }
     end
-
+    
     describe aws_route_tables do
       it { should_not exist }
     end
@@ -38,7 +49,6 @@ Lists all VPCs that are in the Route Tables.
     describe aws_route_tables do
       its('vpc_ids') { should include 'vpc_12345678' }
     end
-
 
 ### route\_table\_ids
 

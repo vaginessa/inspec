@@ -3,13 +3,23 @@ title: About the nginx_conf Resource
 platform: linux
 ---
 
-# nginx_conf
+# nginx\_conf
 
 Use the `nginx_conf` InSpec resource to test configuration data for the NGINX server located at `/etc/nginx/nginx.conf` on Linux and Unix platforms.
 
 **Stability: Experimental**
 
 <br>
+
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v1.37.6 of InSpec.
 
 ## Syntax
 
@@ -21,10 +31,10 @@ An `nginx_conf` resource block declares the client NGINX configuration data to b
 
 where
 
-* `nginx_conf` is the resource to reference your NGINX configuration
-* `params` accesses all its parameters
-* `params['pid']` selects the `pid` entry from the global NGINX configuration
-* `{ should cmp 'logs/nginx.pid' }` tests if the PID is set to `logs/nginx.pid` (via `cmp` matcher)
+  - `nginx_conf` is the resource to reference your NGINX configuration
+  - `params` accesses all its parameters
+  - `params['pid']` selects the `pid` entry from the global NGINX configuration
+  - `{ should cmp 'logs/nginx.pid' }` tests if the PID is set to `logs/nginx.pid` (via `cmp` matcher)
 
 <br>
 
@@ -64,10 +74,10 @@ It provides further access to all individual entries, servers, and locations.
 
     nginx_conf.http.entries
     => [nginx_conf /etc/nginx/nginx.conf, http entry ...]
-
+    
     nginx_conf.http.servers
     => [nginx_conf /etc/nginx/nginx.conf, server entry ...]
-
+    
     nginx_conf.http.locations
     => [nginx_conf /etc/nginx/nginx.conf, location entry ...]
 
@@ -80,7 +90,7 @@ Retrieve all `servers` entries in the configuration:
     # all servers across all configs aggregated:
     nginx_conf.servers
     => [nginx_conf /etc/nginx/nginx.conf, server entry ...]
-
+    
     # servers that belong to a specific http entry:
     nginx_conf.http.entries[0].servers
     => [nginx_conf /etc/nginx/nginx.conf, server entry ...]
@@ -88,13 +98,13 @@ Retrieve all `servers` entries in the configuration:
 Servers provide access to all their locations, parent http entry, and raw parameters:
 
     server = nginx_conf.servers[0]
-
+    
     server.locations
     => [nginx_conf /etc/nginx/nginx.conf, location entry ...]
-
+    
     server.parent
     => nginx_conf /etc/nginx/nginx.conf, http entry
-
+    
     server.params
     => {"listen"=>[["85"]],
        "server_name"=>[["domain1.com", "www.domain1.com"]],
@@ -108,11 +118,11 @@ Retrieve all `location` entries in the configuration:
     # all locations across all configs aggregated:
     nginx_conf.locations
     => [nginx_conf /etc/nginx/nginx.conf, location entry ...]
-
+    
     # locations of a http entry aggregated:
     nginx_conf.http.entries[0].locations
     => [nginx_conf /etc/nginx/nginx.conf, location entry ...]
-
+    
     # locations of a specific server:
     nginx_conf.servers[0].locations
     => [nginx_conf /etc/nginx/nginx.conf, location entry ...]
@@ -120,10 +130,10 @@ Retrieve all `location` entries in the configuration:
 Locations provide access to their parent server entry and raw parameters:
 
     location = nginx_conf.locations[0]
-
+    
     location.parent
     => nginx_conf /etc/nginx/nginx.conf, server entry
-
+    
     location.params
     => {"_"=>["~", "\\.php$"], "fastcgi_pass"=>[["127.0.0.1:1025"]]}
 
@@ -134,5 +144,3 @@ If the NGINX configuration file is not located at the default path, `/etc/nginx/
     describe nginx_conf('/opt/nginx/nginx.conf').params['pid'] do
       it { should cmp 'logs/nginx.pid' }
     end
-
-

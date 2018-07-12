@@ -9,6 +9,16 @@ Use the `apt` InSpec audit resource to verify Apt repositories on the Debian and
 
 <br>
 
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v1.0.0 of InSpec.
+
 ## Syntax
 
 An `apt` resource block tests the contents of Apt and PPA repositories:
@@ -20,9 +30,9 @@ An `apt` resource block tests the contents of Apt and PPA repositories:
 
 where
 
-* `apt('path')` must specify an Apt or PPA repository
-* `('path')` may be an `http://` address, a `ppa:` address, or a short `repo-name/ppa` address
-* `exist` and `be_enabled` are a valid matchers for this resource
+  - `apt('path')` must specify an Apt or PPA repository
+  - `('path')` may be an `http://` address, a `ppa:` address, or a short `repo-name/ppa` address
+  - `exist` and `be_enabled` are a valid matchers for this resource
 
 <br>
 
@@ -57,8 +67,7 @@ The following examples show how to use this InSpec audit resource.
 
 For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
-
-### be_enabled
+### be\_enabled
 
 The `be_enabled` matcher tests if a package exists in the repository:
 

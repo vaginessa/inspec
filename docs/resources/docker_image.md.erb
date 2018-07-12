@@ -3,11 +3,21 @@ title: About the docker_image Resource
 platform: linux
 ---
 
-# docker_image
+# docker\_image
 
 Use the `docker_image` InSpec audit resource to verify a Docker image.
 
 <br>
+
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v1.21.0 of InSpec.
 
 ## Syntax
 
@@ -91,4 +101,3 @@ For a full list of available matchers, please visit our [matchers page](https://
 The `exist` matcher tests if the image is available on the node:
 
     it { should exist }
-

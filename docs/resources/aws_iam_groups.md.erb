@@ -11,6 +11,16 @@ To test properties of a single group, use the `aws_iam_group` resource.
 
 <br>
 
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v2.0.16 of InSpec.
+
 ## Syntax
 
 An `aws_iam_groups` resource block uses an optional filter to select a collection of IAM groups and then tests that collection.
@@ -32,7 +42,7 @@ As this is the initial release of `aws_iam_groups`, its limited functionality pr
 
 ## Filter Criteria
 
-### group_name
+### group\_name
 
 Filters the IAM groups by their group name, a string.  If you know the exact group name, use `aws_iam_group` (singular) instead.  This criteria may be used when you know a pattern of the name.
 
@@ -44,7 +54,7 @@ Filters the IAM groups by their group name, a string.  If you know the exact gro
 
 ## Properties
 
-### group_names
+### group\_names
 
 An Array of Strings, reflecting the IAM group names matched by the filter.  If no groups matched, this will be empty.  You can also use this with `aws_iam_group` to enumerate groups.
 
@@ -53,7 +63,7 @@ An Array of Strings, reflecting the IAM group names matched by the filter.  If n
       its('group_names') { should include 'FriendlyAdmins' }
       its('group_names') { should include 'KindAdmins' }
     end
-
+    
     # Use to loop and fetch groups individually for auditing in detail
     # Without a `where`, this fetches all groups
     aws_iam_groups.group_names.each do |group_names|

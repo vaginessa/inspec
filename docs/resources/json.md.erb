@@ -9,6 +9,16 @@ Use the `json` InSpec audit resource to test data in a JSON file.
 
 <br>
 
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v1.0.0 of InSpec.
+
 ## Syntax
 
 A `json` resource block declares the data to be tested. Assume the following JSON file:
@@ -34,8 +44,8 @@ This file can be queried using:
 
 where
 
-* `name` is a configuration setting in a JSON file
-* `should eq 'foo'` tests a value of `name` as read from a JSON file versus the value declared in the test
+  - `name` is a configuration setting in a JSON file
+  - `should eq 'foo'` tests a value of `name` as read from a JSON file versus the value declared in the test
 
 <br>
 
@@ -60,4 +70,3 @@ The `name` matcher tests the value of the filename as read from a JSON file vers
 ## Matchers
 
 For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
-

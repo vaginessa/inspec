@@ -9,6 +9,16 @@ Use the `yaml` InSpec audit resource to test configuration data in a Yaml file.
 
 <br>
 
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v1.0.0 of InSpec.
+
 ## Syntax
 
 A `yaml` resource block declares the configuration data to be tested. Assume the following Yaml file:
@@ -27,19 +37,19 @@ This file can be queried using:
 
 where
 
-* `name` is a configuration setting in a Yaml file
-* `should eq 'foo'` tests a value of `name` as read from a Yaml file versus the value declared in the test
+  - `name` is a configuration setting in a Yaml file
+  - `should eq 'foo'` tests a value of `name` as read from a Yaml file versus the value declared in the test
 
 Like the `json` resource, the `yaml` resource can read a file, run a command, or accept content inline:
 
     describe yaml('config.yaml') do
       its(['driver', 'name']) { should eq 'vagrant' }
     end
-
+    
     describe yaml({ command: 'retrieve_data.py --yaml' }) do
       its('state') { should eq 'open' }
     end
-
+    
     describe yaml({ content: "\"key1: value1\nkey2: value2\"" }) do
       its('key2') { should cmp 'value2' }
     end

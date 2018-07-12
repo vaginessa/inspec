@@ -13,6 +13,16 @@ To test properties of the special AWS root user (which owns the account), use th
 
 <br>
 
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v2.0.16 of InSpec.
+
 ## Syntax
 
 An `aws_iam_users` resource block uses a filter to select a group of users and then tests that group. With no filter, it returns all AWS IAM users.
@@ -22,7 +32,7 @@ An `aws_iam_users` resource block uses a filter to select a group of users and t
     describe aws_iam_users do
       its('usernames.count') { should eq 42 }
     end
-
+    
     # Using a filter
     # All users should have MFA (no user without MFA should exist)
     describe aws_iam_users.where(has_mfa_enabled?: false) do
@@ -50,7 +60,7 @@ The following examples show how to use this InSpec audit resource.
     console_users_without_mfa = aws_iam_users
                                 .where(has_console_password?: true)
                                 .where(has_mfa_enabled?: false)
-
+    
     describe console_users_without_mfa do
       it { should_not exist }
     end
@@ -60,7 +70,7 @@ The following examples show how to use this InSpec audit resource.
     console_users_with_unused_password = aws_iam_users
                                          .where(has_console_password?: true)
                                          .where(password_never_used?: true)
-
+    
     describe console_users_with_unused_password do
       it { should_not exist }
     end
@@ -70,11 +80,10 @@ The following examples show how to use this InSpec audit resource.
     console_users_with_used_password = aws_iam_users
                                        .where(has_console_password?: true)
                                        .where(password_ever_used?: true)
-
+    
     describe console_users_with_used_password do
       it { should exist }
     end
-
 
 ### Test that users with passwords that have not been used for 90 days do not
 
@@ -133,7 +142,7 @@ True or false. Filters the users to include only those that have used their pass
       it { should exist }
     end
 
-### password\_last\_used_days\_ago
+### password\_last\_used\_days\_ago
 
 Integer. Filters the users to include only those who used their password a certain number of days ago. '0' means today.
 
@@ -141,7 +150,7 @@ Integer. Filters the users to include only those who used their password a certa
     describe aws_iam_users.where(password_ever_used: true, password_last_used_days_ago:0) do
       its('usernames') { should include 'bob' }
     end
-
+    
     # This filter is often more useful in block mode, using a greater-than
     # Here, audit users who have not logged in in the last 30 days
     describe aws_iam_users.where do
@@ -152,7 +161,7 @@ Integer. Filters the users to include only those who used their password a certa
 
 ### password\_never\_used
 
-True or false. Filters the users to include only those that have used _never_ their password.
+True or false. Filters the users to include only those that have used *never* their password.
 
     # No zombie accounts!
     describe aws_iam_users.where(password_never_used: true) do
@@ -168,7 +177,7 @@ String. Filters the users to include only those whose username matches the value
     describe aws_iam_users.where { username.start_with?('service') } do
       it { should_not have_console_password }
     end
-
+    
     # Method call example. This is a poor use of aws_iam_users (plural);
     # if you want to audit an individual user whose username you know, use
     # aws_iam_user (singular)
@@ -225,7 +234,7 @@ Array of strings. Each entry is the name of a user that matched. There will be e
 This InSpec audit resource has the following resource-specific matchers.
 For a full list of available matchers, please visit our [universal matchers page](https://www.inspec.io/docs/reference/matchers/).
 
-As a plural resource, all matchers beginning with `have_` will return true if _any_ of the selected users match.
+As a plural resource, all matchers beginning with `have_` will return true if *any* of the selected users match.
 
 ### exist
 

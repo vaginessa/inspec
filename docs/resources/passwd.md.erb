@@ -7,19 +7,29 @@ platform: linux
 
 Use the `passwd` InSpec audit resource to test the contents of `/etc/passwd`, which contains the following information for users that may log into the system and/or as users that own running processes. The format for `/etc/passwd` includes:
 
-* A username
-* The password for that user (on newer systems passwords should be stored in `/etc/shadow` )
-* The user identifier (UID) assigned to that user
-* The group identifier (GID) assigned to that user
-* Additional information about that user
-* That user's home directory
-* That user's default command shell
+  - A username
+  - The password for that user (on newer systems passwords should be stored in `/etc/shadow` )
+  - The user identifier (UID) assigned to that user
+  - The group identifier (GID) assigned to that user
+  - Additional information about that user
+  - That user's home directory
+  - That user's default command shell
 
 These entries are defined as a colon-delimited row in the file, one row per user:
 
     root:x:1234:5678:additional_info:/home/dir/:/bin/bash
 
 <br>
+
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v1.0.0 of InSpec.
 
 ## Syntax
 
@@ -28,7 +38,7 @@ A `passwd` resource block declares one (or more) users and associated user infor
     describe passwd do
       its('users') { should_not include 'forbidden_user' }
     end
-
+    
     describe passwd.uid(filter) do
       its('users') { should cmp 'root' }
       its('count') { should eq 1 }
@@ -36,9 +46,9 @@ A `passwd` resource block declares one (or more) users and associated user infor
 
 where
 
-* `homes`, `gids`, `passwords`, `shells`, `uids`, and `users` are valid accessors for `passwd`
-* `filter` one (or more) arguments, for example: `passwd.users(/name/)` used to define filtering
-* `filter` may take any of the following arguments: `count` (retrieves the number of entries), `lines` (provides raw `passwd` lines), and `params` (returns an array of maps for all entries)
+  - `homes`, `gids`, `passwords`, `shells`, `uids`, and `users` are valid accessors for `passwd`
+  - `filter` one (or more) arguments, for example: `passwd.users(/name/)` used to define filtering
+  - `filter` may take any of the following arguments: `count` (retrieves the number of entries), `lines` (provides raw `passwd` lines), and `params` (returns an array of maps for all entries)
 
 <br>
 
@@ -59,7 +69,7 @@ The following examples show how to use this InSpec audit resource.
       its('users') { should cmp 'root' }
       its('count') { should eq 1 }
     end
-
+    
     describe passwd.where { user == 'www-data' } do
       its('uids') { should cmp 33 }
       its('count') { should eq 1 }
@@ -100,9 +110,9 @@ This matcher is best used in conjunction with filters. For example:
 
 The `passwords` matcher tests if passwords are
 
-* Encrypted
-* Have direct logins disabled, as indicated by an asterisk (`*`)
-* In the `/etc/shadow` file, as indicated by the letter x (`x`)
+  - Encrypted
+  - Have direct logins disabled, as indicated by an asterisk (`*`)
+  - In the `/etc/shadow` file, as indicated by the letter x (`x`)
 
 For example:
 

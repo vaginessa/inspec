@@ -3,11 +3,21 @@ title: The dh_params Resource
 platform: linux
 ---
 
-# dh_params
+# dh\_params
 
 Use the `dh_params` InSpec audit resource to test Diffie-Hellman (DH) parameters.
 
 <br>
+
+## Availability
+
+### Installation
+
+This resource is distributed along with InSpec itself. You can use it automatically.
+
+### Version
+
+This resource first became available in v1.19.0 of InSpec.
 
 ## Syntax
 
@@ -27,7 +37,7 @@ A `dh_params` resource block declares a parameter file to be tested.
 
 ## Properties
 
-* `generator`, `modulus`, `prime_length`, `pem`, `text`
+  - `generator`, `modulus`, `prime_length`, `pem`, `text`
 
 <br>
 
@@ -51,7 +61,7 @@ Verify prime modulus used for the Diffie-Hellman operation:
 
 Example using multi-line string:
 
-```ruby
+``` ruby
 describe dh_params('/path/to/file.dh_pem') do
   its('modulus') do
     # regex removes all whitespace
@@ -79,7 +89,7 @@ describe dh_params('/path/to/file.dh_pem') do
 end
 ```
 
-### prime_length (Integer)
+### prime\_length (Integer)
 
 Verify length of prime modulus used for the Diffie-Hellman operation:
 
@@ -97,7 +107,7 @@ Verify `pem` output of DH parameters:
 
 Example using multi-line string:
 
-```ruby
+``` ruby
 its('pem') do
   # regex removes all leading spaces
   should eq <<-EOF.gsub(/^[[:blank:]]+/, '')
@@ -135,7 +145,7 @@ Verify human-readable text output of DH parameters:
 
 Example using multi-line string:
 
-```ruby
+``` ruby
 its('text') do
   # regex removes 2 leading spaces
   should eq <<-EOF.gsub(/^[[:blank:]]{2}/, '')
@@ -195,7 +205,7 @@ Verify via `openssl dhparam` command:
 
 For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
-### be_valid
+### be\_valid
 
 Verify whether DH parameters are valid:
 
@@ -208,4 +218,3 @@ Verify whether DH parameters are valid:
     describe dh_params('/path/to/file.dh_pem') do
         it { should be_dh_params}
     end
-
