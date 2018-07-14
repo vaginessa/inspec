@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 require 'pathname'
+require 'inspec/base_cli'
 
 module Init
   class CLI < Inspec::BaseCLI
